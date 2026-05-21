@@ -1,0 +1,13 @@
+{
+  "name": "theodo-ans-local",
+  "owner": {
+    "name": "Theodo QARA"
+  },
+  "plugins": [
+    {
+      "name": "theodo-ans-gap-analysis",
+      "source": "./theodo-ans-plugin",
+      "description": "Theodo ANS DMN gap-analysis tooling — intake interview, gap analysis, Playwright probes, pre-Convergence kit, self-review, archive."
+    }
+  ]
+}

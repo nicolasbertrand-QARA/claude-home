@@ -1,0 +1,336 @@
+# Probe catalog — V0.4 Lot 23
+#
+# Régénéré à partir de exigences_official_v1.json (Sheet ANS officiel)
+# Date : 2026-05-10
+# Granularité : 1 entrée du catalogue = 1 EPIC fonctionnel (ou section pour
+# les scénarios sans EPIC officiel). Total : 20 entrées couvrant 103 scénarios.
+#
+# Chaque entrée :
+# - id              : slug stable (utilisé dans intake.probe_scope[].catalog_id)
+# - label           : titre court UI
+# - description     : 1-2 phrases pour le PM
+# - exigences[]     : liste des N° scénario du référentiel ANS couverts
+# - n_scenarios     : nombre d'exigences couvertes (info)
+# - section         : section ANS du référentiel
+# - epic            : nom de l'EPIC officiel (vide pour les groupes 'section')
+# - profiles[]      : profils DMN concernés (extraits des entrées du groupe)
+# - preuves_clés[]  : 1-3 preuves représentatives extraites des Preuve 1/2/3
+# - tags[]          : facette filtrage UI
+# - default_enabled : (optionnel, défaut true) — décoché par défaut si false
+#
+# Pour /ans-probe, le mapping est :
+# entrée cochée → l'agent lit la liste exigences[] et, pour chaque scénario,
+# génère un spec Playwright qui capture les preuves attendues (depuis le JSON
+# officiel cols 14/16/18).
+
+version: 2
+schema: probe_catalog.v2
+source: skills/ANS/references/exigences_official_v1.json
+regenerated_at: '2026-05-10'
+
+scenarios:
+
+  - id: creation-de-patient
+    label: CRÉATION DE PATIENT
+    description: "CRÉATION DE PATIENT (7 scénarios) — section : Identification des usagers."
+    section: Identification des usagers
+    epic: "CRÉATION DE PATIENT"
+    n_scenarios: 7
+    exigences: ['INS 1.1', 'INS 1.2', 'INS 1.3', 'INS 1.4', 'INS 11.1', 'INS 12.1', 'INS 22.1']
+    profiles:
+      - Général
+      - "Référentiel d'identités"
+    tags: [INS, identity, create]
+    preuves_cles:
+      - |-
+        Démonstration (capture d'écran, vidéo...) montrant la création de l'identité dans le cas de figure 1.
+        
+        Démonstration (capture d'écran, vidéo...) montrant une identité existante dans le cas de figure 2…
+      - |-
+        Démonstration (capture d'écran, vidéo...) montrant l'alimentation du champ "Nom de naissance" en testant tour à tour la saisie des différents caractères listés dans le cas de figure 1.
+        
+        Démonstration …
+      - |-
+        Démonstration montrant l'alimentation du champ "Date de naissance" en testant tour à tour la saisie d'un jour et/ou d'un mois avec une valeur non autorisée dans le cas de figure 1 
+        
+        A noter : les logi…
+
+  - id: affichage-profil-patient
+    label: AFFICHAGE PROFIL PATIENT
+    description: "AFFICHAGE PROFIL PATIENT (1 scénarios) — section : Identification des usagers."
+    section: Identification des usagers
+    epic: "AFFICHAGE PROFIL PATIENT"
+    n_scenarios: 1
+    exigences: ['INS 2.1']
+    profiles:
+      - Général
+    tags: [INS, display]
+    preuves_cles:
+      - |-
+        Copie d'écran de l'IHM avec a minima les champs obligatoires à l'affichage
+        
+        NB : si tous les champs non obligatoires listés n'apparaissent pas dans la copie d'écran => Démonstration (copie d'écran, vi…
+
+  - id: tracabilite-journalisation
+    label: TRAÇABILITÉ/JOURNALISATION
+    description: "TRAÇABILITÉ/JOURNALISATION (9 scénarios) — section : Identification des usagers."
+    section: Identification des usagers
+    epic: "TRAÇABILITÉ/JOURNALISATION"
+    n_scenarios: 9
+    exigences: ['INS 3.1', 'INS 4.1', 'INS 17.1', 'INS 23.1', 'INS 25.1', 'INS 26.1', 'INS 37.1', 'INS 38.1', 'INS 41.1']
+    profiles:
+      - Général
+      - "Référentiel d'identités"
+    tags: [audit, log]
+    preuves_cles:
+      - Extract des logs
+      - "Démonstration montrant : les différents appels réalisés et le journal traçant ces appels"
+      - "Démonstration (copie d'écran, vidéo...) montrant : la modification de l'identité et l'écran permettant de visualiser la trace de la modification."
+
+  - id: habilitation-ins
+    label: HABILITATION INS
+    description: "HABILITATION INS (3 scénarios) — section : Identification des usagers."
+    section: Identification des usagers
+    epic: "HABILITATION INS"
+    n_scenarios: 3
+    exigences: ['INS 5.1', 'INS 6.1', 'INS 29.1']
+    profiles:
+      - Général
+      - "Référentiel d'identités"
+    tags: [INS, auth, rbac]
+    preuves_cles:
+      - "Démonstration (copie d'écran, vidéo...) de présentation des modalités de paramétrage"
+      - "Démonstration (copie d'écran, vidéo...) de présentation des modalités de paramétrage"
+      - "Démonstration (copie d'écran, vidéo...) montrant l'identité, une tentative de modification des champs qui ne doivent pas être modifiés, le blocage de cette modification, une tentative de modification …"
+
+  - id: recherche-filtre-patient
+    label: RECHERCHE/FILTRE PATIENT
+    description: "RECHERCHE/FILTRE PATIENT (12 scénarios) — section : Identification des usagers."
+    section: Identification des usagers
+    epic: "RECHERCHE/FILTRE PATIENT"
+    n_scenarios: 12
+    exigences: ['INS 7.1', 'INS 7.2', 'INS 7.3', 'INS 7.4', 'INS 7.5', 'INS 8.1', 'INS 9.1', 'INS 9.2', 'INS 9.3', 'INS 9.4', 'INS 10.1', 'INS 10.2']
+    profiles:
+      - Général
+    tags: [INS, search]
+    preuves_cles:
+      - "Démonstration (capture d'écran, vidéo...) montrant la saisie de la date de naissance et l'ensemble des résultats retournés"
+      - "Démonstration (capture d'écran, vidéo...) montrant la saisie de la date de naissance / des premiers caractères du nom et l'ensemble des résultats retournés"
+      - "Démonstration (capture d'écran, vidéo...) montrant la saisie de la date de naissance / des premiers caractères du nom et l'ensemble des résultats retournés"
+
+  - id: gestion-de-l-identite-recuperation-de-l-identite
+    label: "GESTION DE L'IDENTITÉ (RÉCUPÉRATION DE L'IDENTITÉ)"
+    description: "GESTION DE L'IDENTITÉ (RÉCUPÉRATION DE L'IDENTITÉ) (13 scénarios) — section : Identification des usagers."
+    section: Identification des usagers
+    epic: "GESTION DE L'IDENTITÉ (RÉCUPÉRATION DE L'IDENTITÉ)"
+    n_scenarios: 13
+    exigences: ['INS 13.1', 'INS 14.1', 'INS 15.1', 'INS 16.1', 'INS 16.2', 'INS 16.3', 'INS 30.1', 'INS 31.1', 'INS 32.1', 'INS 33.1', 'INS 34.1', 'INS 34.2', 'INS 35.1']
+    profiles:
+      - "Référentiel d'identités"
+    tags: [INS, identity, INSi]
+    preuves_cles:
+      - "Démonstration (copie d'écran, vidéo...) montrant : les champs avant l'appel à INSi, l'appel à INSi, l'affichage du retour d'INSi, la validation utilisateur, les champs après appel à INSi."
+      - "Démonstration (copie d'écran, vidéo...) montrant : le champ 1er prénom avant l'appel à INSi, l'appel à INSi, l'affichage du retour d'INSi, la validation utilisateur, le champ liste des prénoms après a…"
+      - "Démonstration (copie d'écran, vidéo...) montrant : le retour d'INSi et le blocage du rapatriement des données retournées par INSi"
+
+  - id: gestion-de-l-identite-validation-de-l-identite
+    label: "GESTION DE L'IDENTITÉ (VALIDATION DE L'IDENTITÉ)"
+    description: "GESTION DE L'IDENTITÉ (VALIDATION DE L'IDENTITÉ) (5 scénarios) — section : Identification des usagers."
+    section: Identification des usagers
+    epic: "GESTION DE L'IDENTITÉ (VALIDATION DE L'IDENTITÉ)"
+    n_scenarios: 5
+    exigences: ['INS 18.1', 'INS 19.1', 'INS 20.1', 'INS 21.1', 'INS 24.1']
+    profiles:
+      - "Référentiel d'identités"
+    tags: [INS, identity, qualification]
+    preuves_cles:
+      - "Démonstration (capture d'écran, vidéo...) montant la création de l'identité et le champ permettant de renseigner le justificatif"
+      - "Démonstration (capture d'écran, vidéo...) montrant le paramétrage de quelques justificatifs et du degré de confiance associé"
+      - "Démonstration (capture d'écran, vidéo...) montrant la création de l'identité et l'action à réaliser pour indiquer qu'il s'agit d'une identité validée."
+
+  - id: gestion-identite-fictive-ou-douteuse
+    label: GESTION IDENTITÉ FICTIVE OU DOUTEUSE
+    description: "GESTION IDENTITÉ FICTIVE OU DOUTEUSE (5 scénarios) — section : Identification des usagers."
+    section: Identification des usagers
+    epic: "GESTION IDENTITÉ FICTIVE OU DOUTEUSE"
+    n_scenarios: 5
+    exigences: ['INS 27.1', 'INS 27.2', 'INS 27.3', 'INS 28.1', 'INS 28.2']
+    profiles:
+      - "Référentiel d'identités"
+    tags: [INS, identity, identitovigilance]
+    preuves_cles:
+      - "Démonstration (capture d'écran, vidéo...) montrant : le statut initial de l'identité, l'attribution du caractère douteux, le statut de l'identité après attribution du caractère douteux"
+      - "Démonstration (capture d'écran, vidéo...) montrant : le statut initial de l'identité, l'attribution du caractère douteux, le statut de l'identité après attribution du caractère douteux"
+      - "Démonstration (capture d'écran, vidéo...) montrant : le statut initial de l'identité, l'attribution du caractère douteux, le statut de l'identité après attribution du caractère douteux"
+
+  - id: cnda
+    label: CNDA
+    description: "CNDA (3 scénarios) — section : Identification des usagers."
+    section: Identification des usagers
+    epic: "CNDA"
+    n_scenarios: 3
+    exigences: ['INS 39.1', 'INS 39.2', 'INS 40.1']
+    profiles:
+      - "Référentiel d'identités en Etablissement de Santé"
+      - "Référentiel d'identités hors Etablissement de Santé"
+      - "Référentiel d'identités"
+    tags: [INS, CNDA, cybersec]
+    preuves_cles:
+      - "Justificatif de l'autorisation CNDA correspondant au référentiel \"téléservice identifiant national de santé (INS)\", avec ces modalités d'identification électronique."
+      - "Justificatif de l'autorisation CNDA correspondant au référentiel \"téléservice identifiant national de santé (INS)\", avec ces modalités d'identification électronique."
+      - "Justificatif de l'autorisation CNDA correspondant au référentiel \"téléservice identifiant national de santé (INS)\", avec ces modalités de recherche."
+
+  - id: generation-de-document
+    label: GÉNÉRATION DE DOCUMENT
+    description: "GÉNÉRATION DE DOCUMENT (3 scénarios) — section : Identification des usagers."
+    section: Identification des usagers
+    epic: "GÉNÉRATION DE DOCUMENT"
+    n_scenarios: 3
+    exigences: ['INS 42.1', 'INS 43.1', 'INS 44.1']
+    profiles:
+      - Général
+    tags: [INS, export, pdf]
+    preuves_cles:
+      - Scan des éditions
+      - "Démonstration (copie d'écran, vidéo...) montrant : les modalités de paramétrage des champs à afficher"
+      - "Scan de l'édition comportant le datamatrix"
+
+  - id: message-hl7
+    label: MESSAGE HL7
+    description: "MESSAGE HL7 (3 scénarios) — section : Identification des usagers."
+    section: Identification des usagers
+    epic: "MESSAGE HL7"
+    n_scenarios: 3
+    exigences: ['INS 45.1', 'INS 45.2', 'INS 45.3']
+    profiles:
+      - Général
+    tags: [INS, integration, hl7]
+    preuves_cles:
+      - "Lien permanent de l'espace de tests d'interopérabilité du CI-SIS vers le rapport de validation pour ce test"
+      - "Lien permanent de l'espace de tests d'interopérabilité du CI-SIS vers le rapport de validation pour ce test"
+      - "Lien permanent de l'espace de tests d'interopérabilité du CI-SIS vers le rapport de validation pour ce test"
+
+  - id: stockage-de-copie-de-piece-d-identite
+    label: "STOCKAGE DE COPIE DE PIECE D'IDENTITE"
+    description: "STOCKAGE DE COPIE DE PIECE D'IDENTITE (1 scénarios) — section : Identification des usagers."
+    section: Identification des usagers
+    epic: "STOCKAGE DE COPIE DE PIECE D'IDENTITE"
+    n_scenarios: 1
+    exigences: ['INS 46.1']
+    profiles:
+      - "Stockage de copies de titres d'identités"
+    tags: [INS, storage]
+    preuves_cles:
+      - "Fournir la documentation du mécanisme de chiffrement de la pièce d'identité : algorithme de chiffrement et tailles des clés, gestion de la durée de conservation et traitement de suppression, gestion d…"
+
+  - id: section-pro-sante-connect-psc
+    label: Pro Santé Connect (PSC)
+    description: Pro Santé Connect (PSC) (6 scénarios).
+    section: Pro Santé Connect (PSC)
+    epic: ''
+    n_scenarios: 6
+    exigences: ['PSC 1.1', 'PSC 2.1', 'PSC 3.1', 'PSC 4.1', 'PSC 5.1', 'PSC 6.1']
+    profiles:
+      - Accès Professionnel
+    tags: [PSC, auth, sso]
+    preuves_cles:
+      - "Ecrit décrivant le service de l'éditeur en précisant le numéro de Siret si l'entreprise est immatriculée en France."
+      - Video montrant le bon déroulé du scénario de conformité associé.
+      - Engagement de conformité au référentiel Pro Santé Connect [PSC1]
+
+  - id: section-annuaire-sante
+    label: Annuaire Santé
+    description: Annuaire Santé (5 scénarios).
+    section: Annuaire Santé
+    epic: ''
+    n_scenarios: 5
+    exigences: ['ANN 1.1', 'ANN 2.1', 'ANN 3.1', 'ANN 4.1', 'ANN 5.1']
+    profiles:
+      - Accès Professionnel
+    tags: [annuaire, integration]
+    preuves_cles:
+      - "Si le Système utilise [ANA1] montrer que le service appelle les services de publication du répertoire sectoriel de référence des personnes physiques (Annuaire Santé) et l'intègre périodiquement, fourn…"
+      - "Fournir une vidéo montrant les modalités de gestion de l'identifiant du professionnel et les étapes du scénario de conformité."
+      - "Fournir une vidéo montrant les modalités de gestion de l'identifiant du correspondant et les étapes du scénario de conformité."
+
+  - id: section-portabilite-des-donnees
+    label: Portabilité des données 
+    description: Portabilité des données  (1 scénarios).
+    section: Portabilité des données 
+    epic: ''
+    n_scenarios: 1
+    exigences: ['PORT 1.1']
+    profiles:
+      - Général
+    tags: [data, export, rgpd]
+    preuves_cles:
+      - Documentation demandée dans le scénario de conformité
+
+  - id: section-authentification-electronique-des-usagers-apcv
+    label: Authentification électronique des usagers - ApCV
+    description: Authentification électronique des usagers - ApCV (1 scénarios).
+    section: Authentification électronique des usagers - ApCV
+    epic: ''
+    n_scenarios: 1
+    exigences: ['ApCV 1.1']
+    profiles:
+      - Accès Usager - ApCV
+    tags: [ApCV, auth, mobile, capture-protocol]
+    preuves_cles:
+      - "Fourniture de l'agrément CNDA conformément à l'addendum 8 du cahier des charges SESAM-Vitale [APCV1] ou l'homologation GIE SESAM-Vitale selon le référentiel Dispositif Intégré v4.00 ou selon l'agrémen…"
+
+  - id: section-identification-electronique-des-acteurs-des-secteurs-sanitai
+    label: Identification électronique des Acteurs des secteurs sanitaires, médico-social et social (ASPP)
+    description: Identification électronique des Acteurs des secteurs sanitaires, médico-social et social (ASPP) (10 scénarios).
+    section: Identification électronique des Acteurs des secteurs sanitaires, médico-social et social (ASPP)
+    epic: ''
+    n_scenarios: 10
+    exigences: ['IEPS 2.1', 'IEPS 4.1', 'IEPS 5.1', 'IEPS 6.1', 'IEPS 7.1', 'IEPS 8.1', 'IEPS 9.1', 'IEPS 9.2', 'IEPS 12.1', 'IEPS 13.1']
+    profiles:
+      - Accès Professionnel
+    tags: [IEPS, auth, HCP]
+    preuves_cles:
+      - "Copies d'écran des déclarations de compte et messages d'erreur"
+      - "Captures d'écran ou vidéo montrant la vérification des attributs d'un Usager"
+      - "Captures d'écran ou vidéo montrant le déroulé du scénario de conformité"
+
+  - id: section-identification-electronique-des-usagers
+    label: Identification électronique des Usagers
+    description: Identification électronique des Usagers (13 scénarios).
+    section: Identification électronique des Usagers
+    epic: ''
+    n_scenarios: 13
+    exigences: ['IEU 1.1', 'IEU 2.1', 'IEU 3.1', 'IEU 4.1', 'IEU 5.1', 'IEU 6.1', 'IEU 7.1', 'IEU 8.1', 'IEU 9.1', 'IEU 10.1', 'IEU 10.2', 'IEU 11.1', 'IEU 12.1']
+    profiles:
+      - Accès Usager
+    tags: [IEU, auth, patient]
+    preuves_cles:
+      - "Captures d'écran ou vidéo montrant la vérification d'identité"
+      - "Captures d'écran ou vidéo montrant la vérification de contrôle des informations d'un compte"
+      - "Captures d'écran ou vidéo montrant la vérification de contrôle des coordonnées de messagerie ou téléphoniques"
+
+  - id: section-administration-securisation-et-tracabilite-des-donnees-du-sy
+    label: Administration, sécurisation et traçabilité des données du système
+    description: Administration, sécurisation et traçabilité des données du système (1 scénarios).
+    section: Administration, sécurisation et traçabilité des données du système
+    epic: ''
+    n_scenarios: 1
+    exigences: ['ADM 1.1']
+    profiles:
+      - Général
+    tags: [admin, rbac, audit]
+    preuves_cles:
+      - "Captures d'écran montrant la gestion des profils, droits et habilitations d'un compte utilisateur"
+
+  - id: section-reglement-general-de-protection-des-donnees
+    label: Règlement Général de Protection des Données
+    description: Règlement Général de Protection des Données (1 scénarios).
+    section: Règlement Général de Protection des Données
+    epic: ''
+    n_scenarios: 1
+    exigences: ['RGPD 1.1']
+    profiles:
+      - Général
+    tags: [rgpd, privacy]
+    preuves_cles:
+      - "Copie signée de la la déclaration de conformité au RGPD annexée au référentiel d'interopérabilité et de sécurité des Dispositifs Médicaux Numériques."

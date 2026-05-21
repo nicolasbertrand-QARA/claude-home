@@ -1,0 +1,25 @@
+{
+  "name": "theodo-ans-gap-analysis",
+  "version": "0.4.20",
+  "description": "Theodo ANS DMN gap-analysis tooling — intake interview, gap analysis from client docs, Playwright probes, pre-Convergence kit (10 deliverables), self-review, archive. V0.5 features (prose-client split, writing_pack, ans-prose-renderer, R7-R10 fixes) shipped under 0.4.20 to maintain UI compat <0.5.0 — bump to 0.5.0 when UI catches up.",
+  "author": {
+    "name": "Theodo QARA"
+  },
+  "homepage": "https://github.com/nicolasbertrand-QARA/theodo-ans-plugin",
+  "license": "PROPRIETARY",
+  "keywords": [
+    "qara",
+    "ans",
+    "dmn",
+    "regulatory",
+    "medical-device",
+    "convergence",
+    "gap-analysis"
+  ],
+  "compatible_ui_versions": ">=0.4.0,<0.5.0",
+  "schemas": {
+    "project_brief": "schemas/project-brief.v1.json",
+    "decision_points": "schemas/decision-points.v1.json",
+    "assessment": "schemas/assessment.v1.json"
+  }
+}

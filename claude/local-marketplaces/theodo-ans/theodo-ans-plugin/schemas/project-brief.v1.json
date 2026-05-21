@@ -1,0 +1,268 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/nicolasbertrand-QARA/theodo-ans-plugin/schemas/project-brief.v1.json",
+  "title": "Project Brief v1",
+  "description": "Canonical mission brief consumed by all ANS plugin slash commands. Single source of truth between PM/DP and the agents.",
+  "type": "object",
+  "required": ["schema_version", "mission", "tier"],
+  "properties": {
+    "schema_version": { "const": "v1" },
+    "tier": {
+      "type": "string",
+      "enum": ["T1", "T2", "T3"],
+      "description": "T1 = post-init essentials. T2 = post-visio tech/access. T3 = post-jalon-1 profils/scope. Each tier additive (never invalidates earlier)."
+    },
+    "mission": {
+      "type": "object",
+      "required": ["client", "pm", "dp", "dates"],
+      "properties": {
+        "client": {
+          "type": "object",
+          "properties": {
+            "raison_sociale": { "type": "string" },
+            "nom_court": { "type": "string" },
+            "domaine": { "type": "string", "format": "uri" },
+            "siren": { "type": "string", "pattern": "^[0-9]{9}$" }
+          },
+          "required": ["nom_court"]
+        },
+        "pm": { "$ref": "#/$defs/contact" },
+        "dp": { "$ref": "#/$defs/contact" },
+        "raq_client": { "$ref": "#/$defs/contact" },
+        "dpo_client": {
+          "allOf": [{ "$ref": "#/$defs/contact" }],
+          "properties": { "same_as_raq": { "type": "boolean" } }
+        },
+        "dates": {
+          "type": "object",
+          "properties": {
+            "kickoff": { "type": "string", "format": "date" },
+            "visio_intake": { "type": "string", "format": "date-time" },
+            "jalon_2": { "type": "string", "format": "date" },
+            "jalon_3": { "type": "string", "format": "date" },
+            "cible_convergence": { "type": "string", "format": "date" }
+          }
+        },
+        "dmn_version": { "type": "string", "default": "1.2.2" }
+      }
+    },
+    "product": {
+      "type": "object",
+      "description": "Filled in T1 (essentials) + T3 (refined post-visio).",
+      "properties": {
+        "ce_marque": {
+          "type": "object",
+          "properties": {
+            "regime": { "enum": ["mdr", "ivdr", "none"] },
+            "classe": { "enum": ["I", "IIa", "IIb", "III"] },
+            "regle": { "type": "string" },
+            "certificat_url": { "type": "string", "format": "uri" }
+          }
+        },
+        "samd_or_hybrid": { "enum": ["samd", "hybrid", "hardware_only"] },
+        "finalite_medicale": { "type": "array", "items": { "enum": ["diagnostic", "therapeutic", "monitoring", "decision_support"] } },
+        "ml_ai": {
+          "type": "object",
+          "properties": {
+            "present": { "type": "boolean" },
+            "mdcg_2025_6_applicable": { "type": "boolean" },
+            "ai_act_class": { "enum": ["high_risk", "limited_risk", "minimal_risk", "none"] }
+          }
+        },
+        "vendu_france": { "type": "object", "properties": { "yes": { "type": "boolean" }, "modalite": { "type": "string" } } },
+        "pathology_axis": { "type": "string" }
+      }
+    },
+    "tech": {
+      "type": "object",
+      "description": "Filled in T2 (post-visio). Required by /ans-probe and /ans-build.",
+      "properties": {
+        "composants": { "type": "array", "items": { "enum": ["patient_mobile", "hcp_web", "hcp_mobile", "sensor", "backend"] } },
+        "stack_web": { "type": "string" },
+        "stack_mobile": { "type": "string" },
+        "hosting": {
+          "type": "object",
+          "properties": {
+            "provider": { "type": "string" },
+            "region": { "type": "string" },
+            "hds": { "type": "object", "properties": { "attestation_yes": { "type": "boolean" }, "scope": { "type": "string" }, "date": { "type": "string", "format": "date" } } }
+          }
+        },
+        "docs_drive_url": { "type": "string", "format": "uri", "description": "Folder Drive containing SRS / SDS / SOPs etc. Read by /ans-build via docs-fetch rule." },
+        "existing_e2e_tests_path": { "type": "string", "description": "Local filesystem path of pre-existing Playwright/Cypress specs (e.g., ~/sunrise-e2e). /ans-probe uses this as starting point." },
+        "probe_url": { "type": "string", "format": "uri" },
+        "probe_credentials_op_ref": { "type": "string", "pattern": "^op://", "description": "1Password reference, e.g., op://Theodo-ANS/Sunrise-testing/credentials" }
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "description": "Filled in T3 (post-visio). Used by /ans-build to scope exigences.",
+      "properties": {
+        "patient_usager": { "type": "boolean" },
+        "hcp_medecin": { "type": "boolean" },
+        "hcp_specialty": { "type": "string" },
+        "admin_editeur": { "type": "boolean" },
+        "autres": { "type": "string" }
+      }
+    },
+    "dp_decisions": {
+      "type": "object",
+      "description": "Append-only versioned per sub-decision. Each sub-decision is an array of versions, latest is current.",
+      "properties": {
+        "jalon_1": {
+          "type": "object",
+          "properties": {
+            "qualification": { "$ref": "#/$defs/sub_decision_versions" },
+            "pathway":      { "$ref": "#/$defs/sub_decision_versions" },
+            "voie_ins":     { "$ref": "#/$defs/sub_decision_versions" },
+            "profils_dmn":  { "$ref": "#/$defs/sub_decision_versions" }
+          }
+        },
+        "jalon_2": {
+          "type": "object",
+          "properties": {
+            "validation": { "$ref": "#/$defs/sub_decision_versions" },
+            "disagreement_overrides": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/disagreement_override" }
+            },
+            "a_confirmer_actions": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/a_confirmer_action" }
+            }
+          }
+        },
+        "jalon_3": {
+          "type": "object",
+          "properties": {
+            "validation": { "$ref": "#/$defs/sub_decision_versions" },
+            "coherence_overrides": { "type": "array", "items": { "$ref": "#/$defs/coherence_override" } },
+            "dynamic_points_responses": { "type": "array", "items": { "$ref": "#/$defs/dynamic_point_response" } }
+          }
+        }
+      }
+    },
+    "verdict_overrides": {
+      "type": "array",
+      "description": "DP overrides on individual exigences (continuous editing surface — finding #7bis).",
+      "items": {
+        "type": "object",
+        "required": ["exigence_id", "override_to", "rationale", "signed_at"],
+        "properties": {
+          "exigence_id": { "type": "string" },
+          "v1_verdict": { "type": "string" },
+          "override_to": { "type": "string" },
+          "rationale": { "type": "string", "minLength": 10 },
+          "signed_by": { "type": "string" },
+          "signed_at": { "type": "string", "format": "date-time" },
+          "supersedes_override_id": { "type": "string", "description": "If this is a re-edit, points to previous override id (append-only)." }
+        }
+      }
+    },
+    "scope_overrides": {
+      "type": "object",
+      "properties": {
+        "exclude_features": { "type": "array", "items": { "type": "string" } },
+        "include_extra": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "watchouts": {
+      "type": "array",
+      "description": "Mission-specific risks — read by /ans-build to surface in jalon-2 brief.",
+      "items": {
+        "type": "object",
+        "required": ["title", "severity"],
+        "properties": {
+          "title": { "type": "string" },
+          "severity": { "enum": ["info", "warning", "critical"] },
+          "impact": { "type": "string" },
+          "to_ask_client": { "type": "string" }
+        }
+      }
+    },
+    "probes": {
+      "type": "object",
+      "properties": {
+        "mobile_protocol_status": { "enum": ["pending", "sent_to_raq", "received"] },
+        "manual_artifacts_dir": { "type": "string" }
+      }
+    },
+    "contractuel": {
+      "type": "object",
+      "properties": {
+        "nda_signed": { "type": "boolean" },
+        "dpa_art28_signed": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "contact": {
+      "type": "object",
+      "properties": {
+        "nom": { "type": "string" },
+        "email": { "type": "string", "format": "email" }
+      }
+    },
+    "sub_decision_versions": {
+      "type": "array",
+      "description": "Append-only — each entry = one signed version of this sub-decision.",
+      "items": {
+        "type": "object",
+        "required": ["version", "signed_at", "signed_by", "payload"],
+        "properties": {
+          "version": { "type": "integer", "minimum": 1 },
+          "signed_at": { "type": "string", "format": "date-time" },
+          "signed_by": { "type": "string" },
+          "rationale_change": { "type": "string", "description": "Required if version > 1 — reason for re-signing." },
+          "payload": { "type": "object", "description": "Sub-decision-specific structure (see decision-points.v1.json)." }
+        }
+      }
+    },
+    "disagreement_override": {
+      "type": "object",
+      "required": ["exigence_id", "decision"],
+      "properties": {
+        "exigence_id": { "type": "string" },
+        "v1_verdict": { "type": "string" },
+        "sr_verdict": { "type": "string" },
+        "decision": { "enum": ["keep_v1", "keep_sr", "reclass_a_confirmer", "custom"] },
+        "custom_verdict": { "type": "string" },
+        "rationale_override": { "type": "string" },
+        "cluster_id": { "type": "string", "description": "If part of a clustered pattern decision (finding #8)." }
+      }
+    },
+    "a_confirmer_action": {
+      "type": "object",
+      "required": ["exigence_id", "action"],
+      "properties": {
+        "exigence_id": { "type": "string" },
+        "action": { "enum": ["demander_client", "lancer_probe", "override", "laisser_ouvert"] },
+        "axis": { "enum": ["docs_backend", "captures_mobile", "engagements_contractuels", "other"] },
+        "recipient": { "enum": ["raq", "dpo", "tech_lead", "ans", "other"] },
+        "override_verdict": { "type": "string" },
+        "override_rationale": { "type": "string" },
+        "rationale_unresolved": { "type": "string", "description": "Required if action=laisser_ouvert." }
+      }
+    },
+    "coherence_override": {
+      "type": "object",
+      "required": ["check_id", "decision"],
+      "properties": {
+        "check_id": { "type": "string" },
+        "decision": { "enum": ["acknowledged", "waived"] },
+        "rationale_waiver": { "type": "string", "description": "Required if decision=waived AND criticality=blocking." },
+        "signed_at": { "type": "string", "format": "date-time" },
+        "signed_by": { "type": "string" }
+      }
+    },
+    "dynamic_point_response": {
+      "type": "object",
+      "required": ["point_id", "response"],
+      "properties": {
+        "point_id": { "type": "string" },
+        "response": {},
+        "responded_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

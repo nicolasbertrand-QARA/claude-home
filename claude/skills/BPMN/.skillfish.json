@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "process-modeling",
+  "owner": "melodic-software",
+  "repo": "claude-code-plugins",
+  "path": "plugins/business-analysis/skills/process-modeling",
+  "branch": "main",
+  "sha": "aa4712fa54063e98f04e18b21571c8385948b696",
+  "source": "manual"
+}

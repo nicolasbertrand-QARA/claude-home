@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/nicolasbertrand-QARA/theodo-ans-plugin/schemas/decision-points.v1.json",
+  "title": "Decision Points v1",
+  "description": "Schema for `briefs-revue/jalon-3-decision-points.json` — emitted by /ans-deliverables, consumed by the UI to auto-render Jalon 3 form.",
+  "type": "object",
+  "required": ["schema_version", "mission_id", "generated_at", "points"],
+  "properties": {
+    "schema_version": { "const": "v1" },
+    "mission_id": { "type": "string" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "supersedes_version": { "type": "string", "description": "If regenerated, prior version timestamp. Older points keep responses if unchanged; mark as 'superseded' if removed." },
+    "points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "type", "criticality"],
+        "properties": {
+          "id": { "type": "string", "description": "Stable across regenerations — derived from semantic content (e.g., 'jalon-3.5-INS-17.1-V5-vs-V6')." },
+          "title": { "type": "string" },
+          "type": { "enum": ["radio", "checkbox", "text", "textarea", "ack_only"] },
+          "options": { "type": "array", "items": { "type": "string" } },
+          "recommended_default": {},
+          "rationale": { "type": "string", "description": "Why this point matters. Shown to DP." },
+          "criticality": { "enum": ["blocking", "warning", "info"] },
+          "category": { "enum": ["validation", "coherence_cross_livrables", "regularization", "communication", "mission_specific"] },
+          "auto_check_outcome": { "enum": ["pass", "fail", "unknown"], "description": "For coherence checks: result of agent's parsing — pass means box auto-checked." },
+          "linked_artefacts": { "type": "array", "items": { "type": "string" } },
+          "superseded": { "type": "boolean", "default": false }
+        }
+      }
+    }
+  }
+}

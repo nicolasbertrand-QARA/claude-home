@@ -1,0 +1,98 @@
+{
+  "$schema_version": "v1",
+  "description": "Dependency map: each sub-decision payload value → set of exigence patterns whose applicability changes. Used by the UI for stale-tracking (finding #3 / V3 issue #5) and by clustering (finding #8).",
+  "rules": [
+    {
+      "sub_decision": "jalon_1.voie_ins",
+      "payload_value": "voie_a",
+      "label_fr": "Référentiel d'identité",
+      "applicability_changes": {
+        "default_status_for": ["INS 4.*", "INS 6.*", "INS 11-35.*", "INS 37-40.*", "INS 17.1"],
+        "default_status_to": "Applicable",
+        "rationale_fr_assessment": "Le rôle « Référentiel d'identité » a été retenu en jalon 1. Le système assume la qualification de l'INS (raccordement INSi, traits stricts, qualification d'identité). Cette exigence reste pleinement applicable.",
+        "rationale_fr_brief": "Positionnement INS retenu : Référentiel d'identité. Les ~30 exigences INS étendues (INS 4, 6, 11-35, 37-40) sont toutes applicables au DMN."
+      }
+    },
+    {
+      "sub_decision": "jalon_1.voie_ins",
+      "payload_value": "voie_b",
+      "label_fr": "Esclave d'identité",
+      "applicability_changes": {
+        "default_status_for": ["INS 4.*", "INS 6.*", "INS 11-35.*", "INS 37-40.*", "INS 17.1"],
+        "default_status_to": "Non applicable",
+        "universal_filter_v0_4_lot26": {
+          "description": "V0.4 Lot 26 — Avant d'appliquer le N/A voie_b sur une exigence matchée par default_status_for[], l'agent DOIT vérifier que l'énoncé officiel de l'exigence (col 9 'Enoncé de l'exigence (DOIT) ou de la préconisation (DEVRAIT)' du JSON exigences_official_v1) contient le préfixe conditionnel ci-dessous. Si le préfixe est absent, le scénario est UNIVERSEL (s'applique aussi en voie_b) et ne doit PAS être marqué N/A.",
+          "conditional_prefix_regex": "si\\s+le\\s+syst[èe]me\\s+est\\s+(un\\s+)?r[ée]f[ée]rentiel\\s+d['’]identit",
+          "conditional_prefix_examples_legitimate_na": [
+            "INS 11.1 (énoncé commence par 'Si le Système est référentiel d'identité, alors le Système DOIT respecter a minima les règles 5, 6, 11, 12 et 16...')",
+            "INS 12.1, INS 15.1, INS 16.1, INS 16.2, INS 16.3 (même prologue)"
+          ],
+          "universal_scenarios_examples": [
+            "INS 1.4 — Énoncé NE contient PAS le préfixe conditionnel ; teste la règle 1 (champ SECU distinct du champ INS) qui est une obligation universelle de stockage. Applicable même en voie_b — Sunrise doit avoir un champ SECU distinct du champ matricule INS s'il collecte les deux."
+          ],
+          "fallback_when_applicable_in_voie_b": "Quand la garde décide 'universel' (préfixe absent), traiter le scénario comme un scénario standard à observer + verdicter — applicable Oui, audit_note vide, et appliquer la triangulation probe + doc usuelle."
+        },
+        "rationale_fr_assessment": "Le rôle « Esclave d'identité » a été retenu en jalon 1 : le système reçoit un flux d'identité INS qualifié produit par un référentiel amont (logiciel prescripteur, SIH, etc.) et n'assume pas la qualification. La qualification de cette exigence relève du référentiel d'identité amont — non applicable au DMN.",
+        "rationale_fr_brief": "Positionnement INS retenu : Esclave d'identité. Les exigences INS étendues conditionnelles « Si le Système est référentiel d'identité » (INS 4, 6, 11.x, 12.x, 13.x, 14.x, 15.x, 16.x, 17.x, 18-21, 23-35, 37-40) sont marquées non applicables. Les exigences universelles (énoncé sans préfixe conditionnel — ex. INS 1.4 stockage SECU) restent applicables.",
+        "audit_alternative_voie_fr": "Si l'option « auditer le rôle alternatif » est activée avec sortie « N/A avec note d'audit », chaque exigence garde son statut N/A mais reçoit une note d'audit décrivant ce qui manquerait pour basculer sur le rôle Référentiel d'identité. Si l'option est « NC strict », l'exigence devient Non conforme malgré le hors-scope nominal."
+      }
+    },
+    {
+      "sub_decision": "jalon_1.voie_ins",
+      "payload_value": "a_approfondir",
+      "label_fr": "Positionnement INS à approfondir",
+      "applicability_changes": {
+        "default_status_for": ["INS 4.*", "INS 6.*", "INS 11-35.*", "INS 37-40.*"],
+        "default_status_to": "À confirmer",
+        "rationale_fr_assessment": "Le positionnement INS du système (Référentiel ou Esclave d'identité) n'a pas encore été tranché en jalon 1 — clarification à obtenir avec le client avant de pouvoir trancher cette exigence.",
+        "rationale_fr_brief": "Positionnement INS non tranché en jalon 1. Les ~30 exigences INS étendues (INS 4, 6, 11-35, 37-40) sont en À confirmer dans l'attente."
+      }
+    },
+    {
+      "sub_decision": "jalon_1.profils_dmn",
+      "payload_value_path": "patient_usager",
+      "boolean_false_implies": {
+        "default_status_for": ["IEU.*"],
+        "default_status_to": "Non applicable"
+      }
+    },
+    {
+      "sub_decision": "jalon_1.profils_dmn",
+      "payload_value_path": "hcp_medecin",
+      "boolean_false_implies": {
+        "default_status_for": ["IEPS.*", "PSC.*"],
+        "default_status_to": "Non applicable"
+      }
+    },
+    {
+      "sub_decision": "jalon_1.profils_dmn",
+      "payload_value_path": "referentiel_en_es",
+      "boolean_true_implies": {
+        "exigences_become_applicable": ["INS 39.1"]
+      }
+    },
+    {
+      "sub_decision": "jalon_1.pathway",
+      "payload_value": "lpp_lppr",
+      "implications_for_roadmap": [
+        "CNEDiMTS clinical evaluation (SA/ASA) required in parallel",
+        "ANSM LPP file ~180 days",
+        "Timeline killer if HAS clinical not finalized"
+      ]
+    },
+    {
+      "sub_decision": "jalon_1.pathway",
+      "payload_value": "pecan",
+      "implications_for_roadmap": [
+        "60+30j ANS+HAS+ministers = 90 days",
+        "1 year non-renewable",
+        "Anticipated transition to droit commun"
+      ]
+    }
+  ],
+  "downstream_invalidation": {
+    "voie_ins_changed": ["assessments.*.json (re-build needed)", "deliverables/04-note-positionnement-INS-Voie-*.html (regenerate)", "deliverables/09-lettre-demande-INSi.html"],
+    "profils_dmn_changed": ["assessments.*.json (scope changed)", "deliverables/06-matrice-rbac-identite.html"],
+    "pathway_changed": ["deliverables/03-roadmap-P0-P1-P2.html (timeline)", "deliverables/02-executive-summary.html"]
+  }
+}

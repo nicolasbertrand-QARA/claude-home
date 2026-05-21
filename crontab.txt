@@ -1,0 +1,2 @@
+# Weekly Stock Picks Newsletter — Claude Code Opus 4.6
+3 8 * * 1 /Users/nicolasbertrand/.claude/run_stock_newsletter.sh

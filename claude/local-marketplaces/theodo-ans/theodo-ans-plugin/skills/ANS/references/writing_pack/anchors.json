@@ -1,0 +1,143 @@
+{
+  "schema_version": "v1",
+  "purpose": "Format-anchor exemplars for ans-build Phase B (render-for-client). Each anchor pre-splits a unified gold reco from Okeiro/LibreView into separate obs_fr (col 21 Pourquoi) + reco_client (col 22 Reco Theodo HealthTech) fields, demonstrating the target voice and structure.",
+  "voice": "2e personne, déclaratif présent, audience = RAQ et équipe produit du client. obs_fr est un constat factuel ; reco_client est un dev spec impératif.",
+  "anchors": [
+    {
+      "scenario_id": "INS 1.1",
+      "section": "INS",
+      "verdict": "Non conforme",
+      "applicable": "Oui",
+      "conforme": "Non",
+      "scenario_excerpt": "Présence des champs RNIV (matricule INS, OID, nom de naissance, prénom(s) de naissance, 1er prénom, prénom utilisé, date de naissance, sexe, code INSEE).",
+      "obs_fr": "Les champs OID, nom de naissance, nom utilisé, prénom(s) de naissance, 1er prénom de naissance, prénom utilisé et code lieu de naissance (INSEE) n'apparaissent ni dans le formulaire de création de patient ni dans la fiche patient.",
+      "reco_client": "Ajouter les sept champs RNIV manquants à l'écran de création et à la fiche patient :\n- OID\n- Nom de naissance\n- Nom utilisé\n- Prénom(s) de naissance\n- 1er prénom de naissance\n- Prénom utilisé\n- Code lieu de naissance (code INSEE)",
+      "source_note": "Split from Okeiro INS 1.1 unified gold reco."
+    },
+    {
+      "scenario_id": "INS 1.4",
+      "section": "INS",
+      "verdict": "Non conforme",
+      "applicable": "Oui",
+      "conforme": "Non",
+      "scenario_excerpt": "Si le numéro de sécurité sociale est collecté, un champ distinct du champ matricule INS doit être prévu, dont le libellé ne contient pas le mot « INS ».",
+      "obs_fr": "Le numéro de sécurité sociale et le matricule INS ne sont pas distingués dans la fiche patient.",
+      "reco_client": "Prévoir deux champs distincts dans le formulaire et dans la visualisation patient :\n- Matricule INS (suivi de sa nature, NIR ou NIA)\n- Numéro de sécurité sociale (libellé ne contenant pas le mot « INS »)",
+      "source_note": "Split from Okeiro INS 1.4."
+    },
+    {
+      "scenario_id": "INS 2.1",
+      "section": "INS",
+      "verdict": "Non conforme",
+      "applicable": "Oui",
+      "conforme": "Non",
+      "scenario_excerpt": "Sur chaque vue affichant l'identité (IHM patient), 4 champs sont systématiquement obligatoires : Nom de naissance, 1er prénom de naissance, Date de naissance, Sexe.",
+      "obs_fr": "Les quatre champs obligatoires (Nom de naissance, 1er prénom de naissance, Date de naissance, Sexe) ne sont pas tous affichés systématiquement sur la fiche patient. Les six champs optionnels prévus par le RNIV n'apparaissent pas non plus.",
+      "reco_client": "Afficher systématiquement les quatre champs obligatoires sur la fiche patient et sur le bandeau identité :\n- Nom de naissance\n- Premier prénom de naissance\n- Date de naissance\n- Sexe\n\nAjouter aussi les champs optionnels recommandés (paramétrables par site utilisateur) :\n- Matricule INS (suffixé NIR ou NIA)\n- OID\n- Prénom(s) de naissance\n- Nom utilisé\n- Prénom utilisé\n- Lieu de naissance — Code INSEE",
+      "source_note": "Split from Okeiro INS 2.1 + LibreView INS 2.1 (direct address)."
+    },
+    {
+      "scenario_id": "INS 3.1",
+      "section": "INS",
+      "verdict": "Conforme à étayer",
+      "applicable": "Oui",
+      "conforme": "À vérifier",
+      "scenario_excerpt": "Tracer les accès à l'identité du patient (extract des logs).",
+      "obs_fr": "Une journalisation applicative existe mais aucun journal dédié aux accès à l'identité patient n'est documenté ni démontrable côté IHM.",
+      "reco_client": "Produire une démonstration de l'extraction des logs d'accès à l'identité patient (capture vidéo ou copie d'écran) avec un échantillon contenant utilisateur, horodatage, identité concernée, contexte. À joindre comme preuve INS 3.1.1 dans Convergence. Le journal peut être stocké côté backend, il n'a pas à être visible dans l'interface utilisateur.",
+      "source_note": "Split from LibreView INS 3.1 (« Nous aurions besoin de voir une démonstration… »)."
+    },
+    {
+      "scenario_id": "INS 4.1",
+      "section": "INS",
+      "verdict": "Non applicable",
+      "applicable": "Non",
+      "conforme": "",
+      "voie_ins_decision": "esclave",
+      "scenario_excerpt": "Traçabilité des appels au téléservice INSi (plusieurs utilisateurs).",
+      "obs_fr": "L'appel au téléservice INSi est de la responsabilité du référentiel d'identité amont (système prescripteur). Sunrise reçoit le flux INS qualifié et n'appelle pas INSi directement.",
+      "reco_client": "Joindre au dossier Convergence une note de positionnement « esclave d'identité » signée par le responsable qualité, ainsi qu'une attestation sur l'honneur du dirigeant confirmant que Sunrise ne crée ni ne qualifie d'identités. L'exigence redeviendra applicable si Sunrise bascule un jour vers le rôle de référentiel d'identité (création de matricules INS depuis l'application).",
+      "source_note": "Hand-authored pattern for N/A esclave d'identité, including CEO attestation per Edgar's INS 46.1 note."
+    },
+    {
+      "scenario_id": "INS 7.1",
+      "section": "INS",
+      "verdict": "Non conforme",
+      "applicable": "Oui",
+      "conforme": "Non",
+      "scenario_excerpt": "Recherche d'antériorité par date de naissance — saisie d'une date, liste de tous les usagers nés ce jour-là.",
+      "obs_fr": "La recherche d'antériorité patient par date de naissance n'existe pas dans l'écran de recherche.",
+      "reco_client": "Ajouter une recherche par date de naissance dans l'écran de recherche patient, qui retourne la liste de tous les usagers nés à la date saisie. Capture vidéo à produire pour la preuve INS 7.1.1.",
+      "source_note": "Split from Okeiro INS 7.1 (« La recherche par date de naissance ne fonctionne pas »)."
+    },
+    {
+      "scenario_id": "INS 8.1",
+      "section": "INS",
+      "verdict": "Non conforme",
+      "applicable": "Oui",
+      "conforme": "Non",
+      "scenario_excerpt": "Recherche d'antériorité par matricule INS — saisie des 15 caractères du NIR + clé de contrôle.",
+      "obs_fr": "Le champ matricule INS n'existe pas dans l'IHM de recherche patient, ce qui rend impossible toute recherche par matricule.",
+      "reco_client": "Ajouter un champ de recherche par matricule INS dans l'écran de recherche patient. Le champ doit imposer la saisie des 15 caractères du NIR et vérifier la clé de contrôle avant déclenchement de la recherche.",
+      "source_note": "Split from Okeiro INS 8.1."
+    },
+    {
+      "scenario_id": "INS 9.1",
+      "section": "INS",
+      "verdict": "Non conforme",
+      "applicable": "Oui",
+      "conforme": "Non",
+      "scenario_excerpt": "Insensibilité de la recherche d'antériorité au tiret saisi dans le nom de naissance.",
+      "obs_fr": "Lorsque la recherche par nom de naissance est saisie avec un tiret, l'usager dont le nom ne contient pas de tiret en base n'est pas retrouvé.",
+      "reco_client": "Neutraliser les tirets dans la requête de recherche par nom de naissance : un tiret saisi doit être ignoré, et la recherche doit retrouver les usagers dont le nom n'en comporte pas. Implémenter cette neutralisation côté indexation et requêtage (par exemple via une normalisation Unicode + collation insensible).",
+      "source_note": "Split from Okeiro INS 9.1."
+    },
+    {
+      "scenario_id": "INS 11.1",
+      "section": "INS",
+      "verdict": "Non conforme",
+      "applicable": "Oui",
+      "conforme": "Non",
+      "scenario_excerpt": "Impossibilité de créer une identité si l'un des champs obligatoires n'est pas alimenté : nom de naissance, 1er prénom de naissance, date de naissance, sexe, code lieu de naissance.",
+      "obs_fr": "Les cinq champs obligatoires pour la création d'identité ne sont pas tous présents à l'écran de création, et aucun contrôle bloquant n'empêche la création lorsqu'ils sont omis.",
+      "reco_client": "Implémenter cinq contrôles bloquants à la création d'identité, un par champ obligatoire :\n- Nom de naissance\n- 1er prénom de naissance\n- Date de naissance\n- Sexe\n- Code lieu de naissance (code INSEE)\n\nPrévoir la gestion des valeurs RNIV par défaut lorsque la donnée n'est pas connue (par exemple « 99999 » pour un code lieu de naissance inconnu). Démonstration : créer cinq identités en omettant chacun des champs obligatoires à tour de rôle pour montrer le blocage.",
+      "source_note": "Split from Okeiro INS 11.1 (long reco with RNIV value handling)."
+    },
+    {
+      "scenario_id": "PSC 1.1",
+      "section": "PSC",
+      "verdict": "Non conforme",
+      "applicable": "Oui",
+      "conforme": "Non",
+      "scenario_excerpt": "L'éditeur doit décrire son service par écrit et fournir son SIRET si l'entreprise est immatriculée en France.",
+      "obs_fr": "Aucun raccordement à Pro Santé Connect n'est documenté ni en place sur le produit.",
+      "reco_client": "Engager le raccordement Pro Santé Connect auprès de l'ANS :\n- Créer un compte industriel sur le portail iSC\n- Choisir la modalité d'intégration adaptée (web OIDC fédéré recommandé pour SaaS)\n- Rédiger une description écrite du service incluant le SIRET de Sunrise\n- Implémenter le bouton « Pro Santé Connect » sur l'écran de connexion professionnel",
+      "source_note": "Hand-authored PSC anchor based on Sunrise PSC 1.1 gap + Okeiro PSC style."
+    }
+  ],
+  "anti_anchors": {
+    "purpose": "Examples of what the model MUST NOT produce. Sourced directly from Sunrise 2026-05-11 column-V critique by senior consultant.",
+    "examples": [
+      {
+        "bad_obs_fr": "Cas de figure 2 du scénario (visualisation côté logiciel non référentiel) directement applicable au profil Esclave d'identité retenu. Probe authentifiée HCP + silence coordonné des 6 PDFs Sunrise constatent l'absence des champs RNIV : triangulation = Non conforme, pas À confirmer (V0.4 Lot 13).",
+        "violations": ["plugin internals (Cas de figure 2, voie B, V0.4 Lot 13)", "triangulation language", "audit trace voice (« silence coordonné »)", "no specific missing fields named", "mixes verdict defense and observation"],
+        "good_form": "See anchor INS 1.1 obs_fr."
+      },
+      {
+        "bad_reco": "Action critique reclassée en Non conforme post self-review : Récupérer la capture mobile du signup patient (scénario 1 du capture protocol mobile). Si les traits stricts RNIV sont absents → NC critique à reclasser. Spécifier en SRS dédiée identitovigilance. Action P0 PM probe mobile + RAQ.",
+        "violations": ["self-review meta-narration", "Theodo internal ops (PM probe mobile, RAQ) leaked into client field", "P0 priority code", "SRS / SOP convention names", "no specific client dev instruction"],
+        "good_form": "See anchor INS 1.1 reco_client."
+      },
+      {
+        "bad_obs_fr": "Le scénario de conformité INS 1.3 teste la règle 1 du RNIV (validation à la saisie de la date de naissance : refus de jour ∉ [1,31] et mois ∉ [1,12]). Le rationale V1 invoquait à tort la règle 4 (journalisation des modifications), qui correspond à un autre scénario. L'agent /ans-build a piochée la règle 4 dans la liste « 1, 3, 4 et 17 » de l'énoncé DOIT sans aligner sur la règle ciblée par le scénario. Capture mobile patient à fournir (capture-protocol-mobile.md §1.04 — DDN 32/13/1990) pour conclure.",
+        "violations": ["plugin process narration (V1, /ans-build)", "math symbols (∉)", "internal file paths (capture-protocol-mobile.md §1.04)", "no actual product observation"],
+        "good_form": "obs_fr should state, in one sentence, what the validation actually does or fails to do for Sunrise — no meta-commentary."
+      },
+      {
+        "bad_reco": "Action critique reclassée en Non conforme post self-review : Peupler la base testing avec patients porteurs de diacritiques (Müller, O'Connor…) et reprouver. Documenter en SRS la stratégie NFD / collation. Action P0 PM probe + dev.",
+        "violations": ["self-review meta", "Theodo testing ops mixed with client dev", "P0 + SRS internal codes", "« stratégie NFD / Collation » jargon non expliqué"],
+        "good_form": "See anchor INS 9.1 reco_client (which describes the same fix without leaking plugin/Theodo ops)."
+      }
+    ]
+  }
+}

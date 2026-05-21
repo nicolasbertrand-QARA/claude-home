@@ -1,0 +1,29 @@
+# Memory Index
+
+- [feedback_run_directly.md](feedback_run_directly.md) — When user says "run X", execute directly instead of searching
+- [feedback_gws_not_gcloud.md](feedback_gws_not_gcloud.md) — ALWAYS use `gws` CLI for Google services. NEVER try MCP Google Drive, WebFetch, or gcloud first.
+- [reference_usability_engineering_mdsw.md](reference_usability_engineering_mdsw.md) — Comprehensive usability engineering expertise for EU MDSW: IEC 62366-1, NB expectations, formative/summative evaluation, risk integration, SaMD specifics, agile, clinical evaluation, post-market, FDA vs EU
+- [feedback_sop_creation.md](feedback_sop_creation.md) — SOP template creation workflow: inline DB per SOP, Section # ordering, WRAP CELLS, CLAUDE tag, actionable content, SaaS MDSW startup profile
+- [user_role_theodo.md](user_role_theodo.md) — Head of QARA & certified DPO at Theodo (digital consulting); leads MDSW QARA dept; Vivoptim is one of many clients
+- [feedback_push_github.md](feedback_push_github.md) — Always push reef-monitor changes to GitHub after every modification
+- [feedback_conversation_rename.md](feedback_conversation_rename.md) — /rename is interactive-only; suggest it to user instead of attempting programmatically
+- [feedback_image_generation.md](feedback_image_generation.md) — Use Gemini Nano Banana 2 (gemini-3.1-flash-image-preview) for all image generation requests
+- [feedback_sop_operational.md](feedback_sop_operational.md) — SOPs must be operational (who/what/when/how), not restatements of standard requirements with "shall"
+- [feedback_sop_audience.md](feedback_sop_audience.md) — SOP primary audience = the operator performing the gesture (same as Academy standard). NB assessor is downstream check, not design target.
+- [feedback_no_import_named_artifacts.md](feedback_no_import_named_artifacts.md) — Don't import named deliverables/roles/gates from reference SOPs (Doctolib etc.) without verifying they exist at Theodo.
+- [feedback_notion_table_autoexpansion.md](feedback_notion_table_autoexpansion.md) — Notion auto-expands `<table>` cells to one-per-line. Surgical update_content with inline form silently no-ops; fetch first or use replace_content.
+- [feedback_no_sycophancy.md](feedback_no_sycophancy.md) — Be direct, skip flattery. Challenge the user when you have a better approach.
+- [feedback_use_local_claude_cli.md](feedback_use_local_claude_cli.md) — For automations needing Claude, use local `claude` CLI (subscription) not Anthropic API key
+- [feedback_ask_when_blocked.md](feedback_ask_when_blocked.md) — When provided materials are inaccessible, STOP and ask — never pursue on public knowledge or assumptions
+- [reference_theodo_academy_standards.md](reference_theodo_academy_standards.md) — Theodo Academy Standards (the Theodo Way): Lean/Toyota vocabulary (gemba, andon, dojo, dantotsu, RDP), DB URL, foundational standards
+- [reference_theodo_roles.md](reference_theodo_roles.md) — Theodo tracks/roles/competencies + Q7 framework. Use as canonical source when assigning R&R in standards/SOPs.
+- [reference_cmo_at_theodo.md](reference_cmo_at_theodo.md) — At Theodo, CMO = Chief Marketing Officer (NOT Medical). Use "Medical Director" for the medical authority role in regulatory documents.
+- [feedback_leantech_skill.md](feedback_leantech_skill.md) — Default: keep Theodo standards in back of mind. /LeanTech skill: strict enforcement
+- [feedback_no_slides_via_api.md](feedback_no_slides_via_api.md) — Don't generate Slides via API — output looks bad. HTML+PDF or human-built deck instead.
+- [reference_theodo_qms_team_gender.md](reference_theodo_qms_team_gender.md) — Theodo QMS team gender (f/m) for French agreement in generated emails/docs
+- [reference_apple_signing_ulysse.md](reference_apple_signing_ulysse.md) — Apple Developer ID + notary profile for Ulysse's Godot games on macOS (team MS3V6TWCPK, profile `laserdash-notary`)
+- [reference_drive_ans_missions.md](reference_drive_ans_missions.md) — Missions ANS = Shared Drive Hokla > Projets > <client>. Plugin v0.2 produit des gdocs natifs (pas .md). Folder ne se déplace pas vers Shared Drive.
+- [feedback_ans_intake_plain_gdoc.md](feedback_ans_intake_plain_gdoc.md) — Artefacts intake ANS = HTML simple → gdoc plain par défaut. PAS de wrapper charte, PAS de DOCX route. Charte réservée aux livrables clients.
+- [reference_ans_plugin_writing_lessons.md](reference_ans_plugin_writing_lessons.md) — ANS plugin: separate audit prose (ecart, internal) from client prose (obs_fr, reco_client). Edgar's Sunrise column V = canonical banned-terms dictionary. Okeiro+LibreView = gold style.
+- [feedback_engagement_not_conformity.md](feedback_engagement_not_conformity.md) — Gap analysis ANS : engagement DP ≠ conformité. Override Conforme "avec engagement de livraison" sans capture = NC, pas Conforme.
+- [feedback_probe_when_possible.md](feedback_probe_when_possible.md) — Si compte gws + portail accessible : exiger la probe Playwright dans reco/theodo_ops, ne PAS écrire "n'a pas pu être démontré" comme excuse passive.

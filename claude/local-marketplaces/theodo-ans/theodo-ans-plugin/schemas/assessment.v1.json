@@ -1,0 +1,222 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://theodo-ans-plugin/schemas/assessment.v1.json",
+  "title": "Assessment v1",
+  "description": "Single ANS gap-analysis assessment. V0.5 — séparation prose interne / prose client : les champs ecart, evidence, recommandation restent en JSON pour traçabilité audit (NB / interne Theodo), tandis que obs_fr et reco_client sont les prose-fields rendus dans la xlsx (cols 21, 22). Triple gate citations toujours en vigueur (V0.4 Lot 1 / A1).",
+  "type": "object",
+  "required": [
+    "n_scenario",
+    "profil",
+    "statut",
+    "severity_numeric",
+    "evidence_attempted"
+  ],
+  "properties": {
+    "n_scenario": {
+      "type": "string",
+      "description": "Identifiant scénario / exigence DMN (ex. INS 1.1, IEPS 12.1, IEU 9.1)."
+    },
+    "profil": {
+      "type": "string",
+      "description": "Profil DMN applicable (cf. dp_decisions.jalon_1.profils_dmn)."
+    },
+    "statut": {
+      "type": "string",
+      "enum": [
+        "Conforme",
+        "Conforme à étayer",
+        "Partiel",
+        "Non conforme",
+        "Non applicable",
+        "À confirmer"
+      ]
+    },
+    "severity_numeric": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "Sévérité numérique selon verdict_taxonomy.md § severity scale."
+    },
+    "evidence_attempted": {
+      "type": "boolean",
+      "description": "TRUE si l'auteur a réellement lu les sources (PDFs, probes, captures) pour ce scénario. FALSE = aucun effort de lecture (ex. À confirmer par défaut sans recherche). Tout assessment.evidence_attempted=false fait échouer le build (Lot 1 / A1)."
+    },
+    "sources_client": {
+      "type": "array",
+      "description": "Liste des citations primaires client. Format : [[doc_id, section_or_page], ...]. Requis si statut ∉ {Non applicable, À confirmer}.",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "sources_opposables": {
+      "type": "array",
+      "description": "Clauses référentielles (DMN, Guide INS V3.0, PGSSI-S, RNIV…).",
+      "items": {
+        "type": "string"
+      }
+    },
+    "methode": {
+      "type": "string",
+      "description": "ex. 'UI authentifiée + Doc', 'Documentation', 'UI publique', 'Probe Playwright + capture'."
+    },
+    "evidence": {
+      "type": "string",
+      "description": "Texte court qui pointe la preuve concrète (citations résumées, URL probe, etc.)."
+    },
+    "ecart": {
+      "type": "string",
+      "description": "Texte court qui décrit ce qui manque ou diverge."
+    },
+    "recommandation": {
+      "type": [
+        "string",
+        "object",
+        "null"
+      ],
+      "description": "Recommandation structurée ou texte libre. Cf. structured_recommendation()."
+    },
+    "confirm_reason": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "no_evidence_in_provided_docs",
+        "evidence_ambiguous",
+        "requirement_out_of_scope",
+        "dp_override_pending",
+        null
+      ],
+      "description": "REQUIS si statut='À confirmer'. Code la raison pour laquelle l'auteur n'a pas pu trancher après lecture. NULL sinon. Détail des codes : 'no_evidence_in_provided_docs' (les docs reçus ne couvrent pas ce point — demander complément client) ; 'evidence_ambiguous' (la doc dit qu'une fonctionnalité existe mais ne décrit pas son comportement attendu — vérification UI/clarif client requise) ; 'requirement_out_of_scope' (exigence applicable mais le client a explicitement déclaré ce module hors-scope mission, à acter par DP) ; 'dp_override_pending' (verdict initial différent reclassé À confirmer par règle disagreement après self-review, en attente d'arbitrage DP)."
+    },
+    "depends_on": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "Autres exigences dont ce verdict hérite (cf. epistemic_discipline.md § Verdicts en cascade)."
+    },
+    "audit_note": {
+      "type": "string",
+      "default": "",
+      "description": "Note d'audit DP/RAQ — utile pour Non applicable (justification écrite signée RAQ exigée Convergence)."
+    },
+    "impact_ux": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "OUI/NON (V0.4 Lot 21) — la mise en conformité nécessite-t-elle un changement UX visible (vs backend pur) ? Remplit col 23 de la xlsx ANS."
+    },
+    "q_a": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Question(s) ouverte(s) à poser au client/DP pour lever une ambiguïté sur ce scénario (V0.4 Lot 21). Vide si aucune. Remplit col 24 de la xlsx ANS."
+    },
+    "obs_fr": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "V0.5 — prose-client pour la col 21 (Pourquoi conforme/non conforme). 1-2 phrases, constat factuel spécifique au produit (champ X, écran Y, parcours Z). Pas de défense de verdict, pas de citation de source, pas de plugin internals. Voir writing_pack/anchors.json. Produit par étape 6 (Phase B render-for-client). Pour les verdicts Non applicable, décrit la frontière d'applicabilité (rôle esclave d'identité, profil non retenu, etc.) plutôt qu'une référence au plugin."
+    },
+    "reco_client": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "V0.5 — prose-client pour la col 22 (Reco Theodo HealthTech). Impératif, dev-spec, bullets si plusieurs éléments. Cite la preuve à produire pour Convergence quand pertinent. Ne contient JAMAIS de tâches internes Theodo (probe mobile, demande RAQ doc, peupler base testing) — celles-ci vont dans theodo_ops. Produit par étape 6 (Phase B render-for-client)."
+    },
+    "theodo_ops": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "V0.5 — tâches opérationnelles internes Theodo (probe mobile à faire, demande complément doc RAQ, peuplement base testing, etc.). N'apparaît JAMAIS dans la xlsx client : exclusivement remontée dans briefs-revue/jalon-2-gap-brute.md pour planification PM/DP. Chaque tâche est une phrase complète et actionnable interne."
+    }
+  },
+  "allOf": [
+    {
+      "$comment": "Triple gate #1 — citation primaire obligatoire pour les verdicts engageants",
+      "if": {
+        "properties": {
+          "statut": {
+            "not": {
+              "enum": [
+                "Non applicable",
+                "À confirmer"
+              ]
+            }
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "sources_client"
+        ],
+        "properties": {
+          "sources_client": {
+            "type": "array",
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "$comment": "Triple gate #2 — confirm_reason codé obligatoire pour chaque À confirmer",
+      "if": {
+        "properties": {
+          "statut": {
+            "const": "À confirmer"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "confirm_reason"
+        ],
+        "properties": {
+          "confirm_reason": {
+            "type": "string",
+            "enum": [
+              "no_evidence_in_provided_docs",
+              "evidence_ambiguous",
+              "requirement_out_of_scope",
+              "dp_override_pending"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "Justification écrite obligatoire pour Non applicable (Convergence RAQ)",
+      "if": {
+        "properties": {
+          "statut": {
+            "const": "Non applicable"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "audit_note"
+        ],
+        "properties": {
+          "audit_note": {
+            "type": "string",
+            "minLength": 10
+          }
+        }
+      }
+    }
+  ]
+}

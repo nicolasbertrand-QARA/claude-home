@@ -1,0 +1,27 @@
+{
+  "$schema_version": "v1",
+  "description": "Expected distribution per (pathway, voie_ins) tuple. V0.3 stub — populated by Sunrise (LPP/Voie B). Enrich as missions accumulate. Banner heuristic uses `delta > 2σ` when baseline exists, falls back to absolute thresholds otherwise.",
+  "baselines": {
+    "lpp_lppr+voie_b": {
+      "n_missions": 1,
+      "source": "Sunrise V6",
+      "expected": {
+        "Conforme": 0,
+        "Conforme à étayer": 14,
+        "Partiel": 8,
+        "Non conforme": 27,
+        "Non applicable": 40,
+        "À confirmer": 14
+      },
+      "expected_pct": {
+        "Non applicable": 39,
+        "À confirmer": 14
+      },
+      "stddev_estimate_pct": {
+        "Non applicable": 5,
+        "À confirmer": 5
+      },
+      "notes": "Voie B with audit_other_voie=true, audit_outcome_for_other=mark_na_with_audit_notes — produces 32 N/A scenarios in INS profil Référentiel d'identités symétriquement. NC=27 reflects Sunrise-specific gaps (PSC, IEPS, IEU, INS 45.x)."
+    }
+  }
+}

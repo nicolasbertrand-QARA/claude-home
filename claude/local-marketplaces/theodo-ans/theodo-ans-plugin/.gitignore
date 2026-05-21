@@ -1,0 +1,29 @@
+# Creds testing — JAMAIS dans le repo
+**/.env
+**/.env.local
+**/probes/.env*
+
+# Artifacts Playwright (volumineux, recréables)
+**/probes/reports/
+**/playwright-report/
+
+# Cache local des PDFs Drive (par mission, pas dans le plugin)
+**/docs/*.pdf
+**/docs/*.docx
+
+# Build artifacts
+**/__pycache__/
+**/*.pyc
+**/node_modules/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Tests fixtures (à ajouter en sym-link, pas en copie)
+tests/fixtures/sunrise/docs/
+
+# OS
+Thumbs.db

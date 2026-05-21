@@ -1,0 +1,201 @@
+{
+  "hooks": {
+    "Notification": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ],
+    "PermissionDenied": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'",
+            "timeout": 86400
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "matcher": "auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      },
+      {
+        "matcher": "manual",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      },
+      {
+        "matcher": "manual",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 '/Users/nicolasbertrand/.claude/hooks/claude-island-state.py'"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "swift-lsp@claude-plugins-official": true,
+    "theodo-ans-gap-analysis@theodo-ans-local": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    },
+    "theodo-ans-local": {
+      "source": {
+        "source": "directory",
+        "path": "/Users/nicolasbertrand/.claude/local-marketplaces/theodo-ans"
+      }
+    }
+  },
+  "autoUpdatesChannel": "stable",
+  "theme": "light"
+}

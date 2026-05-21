@@ -1,0 +1,47 @@
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Secrets and credentials (defense in depth — these should never be in the repo to begin with)
+*.env
+.env
+.env.*
+**/secrets/
+**/credentials/
+*.pem
+*.key
+*.p8
+*.p12
+*AuthKey*
+
+# Claude runtime ephemera (regenerated on each session)
+settings.local.json
+history.jsonl
+stats-cache.json
+mcp-needs-auth-cache.json
+*.cache
+*-cache.json
+*-cache/
+cache/
+paste-cache/
+session-env/
+sessions/
+shell-snapshots/
+scheduled-tasks/
+file-history/
+backups/
+telemetry/
+tasks/
+.last-cleanup
+
+# Logs
+*.log
+logs/
+
+# Plugin install payloads (only the manifests under claude/manifests/ are tracked)
+plugins/
+
+# Local marketplace internals we don't need to ship
+**/node_modules/
+__pycache__/
+*.pyc

@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "plugins": {
+    "swift-lsp@claude-plugins-official": [
+      {
+        "scope": "user",
+        "installPath": "/Users/nicolasbertrand/.claude/plugins/cache/claude-plugins-official/swift-lsp/1.0.0",
+        "version": "1.0.0",
+        "installedAt": "2026-04-17T20:38:44.620Z",
+        "lastUpdated": "2026-04-17T20:38:44.620Z"
+      }
+    ],
+    "theodo-ans-gap-analysis@theodo-ans-local": [
+      {
+        "scope": "user",
+        "installPath": "/Users/nicolasbertrand/.claude/plugins/cache/theodo-ans-local/theodo-ans-gap-analysis/0.4.20",
+        "version": "0.4.20",
+        "installedAt": "2026-05-07T08:08:34.258Z",
+        "lastUpdated": "2026-05-11T19:30:00.000Z"
+      }
+    ]
+  }
+}
