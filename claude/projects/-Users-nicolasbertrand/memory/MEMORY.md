@@ -6,6 +6,7 @@
 - [feedback_sop_creation.md](feedback_sop_creation.md) — SOP template creation workflow: inline DB per SOP, Section # ordering, WRAP CELLS, CLAUDE tag, actionable content, SaaS MDSW startup profile
 - [user_role_theodo.md](user_role_theodo.md) — Head of QARA & certified DPO at Theodo (digital consulting); leads MDSW QARA dept; Vivoptim is one of many clients
 - [feedback_push_github.md](feedback_push_github.md) — Always push reef-monitor changes to GitHub after every modification
+- [project_reef_monitor_infoplist_version.md](project_reef_monitor_infoplist_version.md) — Bumping reef-monitor version: also edit ios/reefmonitor/Info.plist literals (pbxproj alone is ignored)
 - [feedback_conversation_rename.md](feedback_conversation_rename.md) — /rename is interactive-only; suggest it to user instead of attempting programmatically
 - [feedback_image_generation.md](feedback_image_generation.md) — Use Gemini Nano Banana 2 (gemini-3.1-flash-image-preview) for all image generation requests
 - [feedback_sop_operational.md](feedback_sop_operational.md) — SOPs must be operational (who/what/when/how), not restatements of standard requirements with "shall"
@@ -15,6 +16,8 @@
 - [feedback_no_sycophancy.md](feedback_no_sycophancy.md) — Be direct, skip flattery. Challenge the user when you have a better approach.
 - [feedback_use_local_claude_cli.md](feedback_use_local_claude_cli.md) — For automations needing Claude, use local `claude` CLI (subscription) not Anthropic API key
 - [feedback_ask_when_blocked.md](feedback_ask_when_blocked.md) — When provided materials are inaccessible, STOP and ask — never pursue on public knowledge or assumptions
+- [feedback_use_realtime_tools.md](feedback_use_realtime_tools.md) — Use WebSearch/WebFetch for live-world questions. Speculation lists are unacceptable when tools are available.
+- [feedback_web_search_when_unknown.md](feedback_web_search_when_unknown.md) — If info isn't in training data, WebSearch first. Never assert "X doesn't exist" without checking.
 - [reference_theodo_academy_standards.md](reference_theodo_academy_standards.md) — Theodo Academy Standards (the Theodo Way): Lean/Toyota vocabulary (gemba, andon, dojo, dantotsu, RDP), DB URL, foundational standards
 - [reference_theodo_roles.md](reference_theodo_roles.md) — Theodo tracks/roles/competencies + Q7 framework. Use as canonical source when assigning R&R in standards/SOPs.
 - [reference_cmo_at_theodo.md](reference_cmo_at_theodo.md) — At Theodo, CMO = Chief Marketing Officer (NOT Medical). Use "Medical Director" for the medical authority role in regulatory documents.
@@ -27,3 +30,9 @@
 - [reference_ans_plugin_writing_lessons.md](reference_ans_plugin_writing_lessons.md) — ANS plugin: separate audit prose (ecart, internal) from client prose (obs_fr, reco_client). Edgar's Sunrise column V = canonical banned-terms dictionary. Okeiro+LibreView = gold style.
 - [feedback_engagement_not_conformity.md](feedback_engagement_not_conformity.md) — Gap analysis ANS : engagement DP ≠ conformité. Override Conforme "avec engagement de livraison" sans capture = NC, pas Conforme.
 - [feedback_probe_when_possible.md](feedback_probe_when_possible.md) — Si compte gws + portail accessible : exiger la probe Playwright dans reco/theodo_ops, ne PAS écrire "n'a pas pu être démontré" comme excuse passive.
+- [feedback_regulatory_watch_zero_touch.md](feedback_regulatory_watch_zero_touch.md) — Regulatory watch = zero-touch. Never ask confirmation, auto-send on auth recovery, never quote recipients.
+- [reference_fly_token_stockpulse.md](reference_fly_token_stockpulse.md) — `fly deploy` for stockpulse needs FLY_ACCESS_TOKEN exported from ~/.fly/config.yml; bare CLI errors
+- [feedback_source_documents_not_derived.md](feedback_source_documents_not_derived.md) — Never use prior generated artifacts as source of truth; re-verify against primary sources (proven: grid cited AU P0004, source says AU P0037)
+- [project_stock_monitor_data_inspection.md](project_stock_monitor_data_inspection.md) — stock-monitor: dev.db is stale, prod reads need user approval; priceEur frozen per txn since Jun 2026
+- [reference_qms_new_standards_db.md](reference_qms_new_standards_db.md) — BDD new standards QMS DB (collection 3528f377…): how-to house format, État draft→approved workflow, trace spine, never fabricate verifier/approver
+- [feedback_notion_comment_anchor_fragmentation.md](feedback_notion_comment_anchor_fragmentation.md) — Notion update_content silently skips entries fragmented by comment-anchor spans; errors only on zero matches; no resolve API. Re-fetch to verify.

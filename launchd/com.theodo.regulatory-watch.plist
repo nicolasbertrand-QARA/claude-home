@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.theodo.regulatory-watch</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/nicolasbertrand/.claude/regulatory-watch/run.sh</string>
+    </array>
+
+    <!-- Every Friday at 08:00 CET (launchd uses local timezone) -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>5</integer>
+        <key>Hour</key>
+        <integer>8</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <!-- Environment variables to suppress TCC/sandbox prompts -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>HOME</key>
+        <string>/Users/nicolasbertrand</string>
+        <key>TERM</key>
+        <string>xterm-256color</string>
+        <key>APPLE_MUSIC_SUPPRESS</key>
+        <string>1</string>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/Users/nicolasbertrand/.claude/regulatory-watch/launchd_stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/nicolasbertrand/.claude/regulatory-watch/launchd_stderr.log</string>
+
+    <!-- Run missed jobs when waking from sleep -->
+    <key>StartCalendarIntervalAllowedDelay</key>
+    <integer>14400</integer>
+
+    <!-- Use user's login context for TCC permissions -->
+    <key>ProcessType</key>
+    <string>Interactive</string>
+</dict>
+</plist>

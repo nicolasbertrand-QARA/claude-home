@@ -97,7 +97,7 @@ Include a standards monitoring annex table noting any changes detected this week
 
 ## STEP 4: BUILD AND SEND HTML EMAIL
 
-Build a stunning HTML email visually aligned with Theodo HealthTech's graphic guidelines and send it to nicolas.bertrand@theodo.com, thomas.walter@theodo.com, clemence.faulcon@theodo.com, manon.thiberge@theodo.com, and louise.balague@theodo.com using the gws CLI.
+Build a stunning HTML email visually aligned with Theodo HealthTech's graphic guidelines and send it to nicolas.bertrand@theodo.com, thomas.walter@theodo.com, clemence.faulcon@theodo.com, manon.thiberge@theodo.com, louise.balague@theodo.com, and pierre.momboisse@theodo.com using the gws CLI.
 
 ### Brand Guidelines (Theodo HealthTech)
 - Primary dark navy: #1c2837 / #213045
@@ -135,7 +135,7 @@ import base64, json, subprocess, email.mime.text, email.mime.multipart
 
 # Build MIME message
 msg = email.mime.multipart.MIMEMultipart('alternative')
-msg['To'] = 'nicolas.bertrand@theodo.com, thomas.walter@theodo.com, clemence.faulcon@theodo.com, manon.thiberge@theodo.com, louise.balague@theodo.com'
+msg['To'] = 'nicolas.bertrand@theodo.com, thomas.walter@theodo.com, clemence.faulcon@theodo.com, manon.thiberge@theodo.com, louise.balague@theodo.com, pierre.momboisse@theodo.com'
 msg['Subject'] = 'Regulatory Watch - Medical Device Software & AI Act - [DATE]'
 msg['From'] = 'me'
 

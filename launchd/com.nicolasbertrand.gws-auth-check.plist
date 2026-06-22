@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.nicolasbertrand.gws-auth-check</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/nicolasbertrand/.claude/scripts/gws-auth-check.sh</string>
+    </array>
+
+    <!-- Fire at 06:30, 09:30, 12:30 local time daily.
+         06:30 = catch reauth before the Fri 08:00 newsletter run.
+         09:30 = catch any send-blocked Friday morning.
+         12:30 = safety net + auto-send any newsletter still pending. -->
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict>
+            <key>Hour</key>
+            <integer>6</integer>
+            <key>Minute</key>
+            <integer>30</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>9</integer>
+            <key>Minute</key>
+            <integer>30</integer>
+        </dict>
+        <dict>
+            <key>Hour</key>
+            <integer>12</integer>
+            <key>Minute</key>
+            <integer>30</integer>
+        </dict>
+    </array>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/Users/nicolasbertrand/.claude/scripts/gws-auth-check.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/nicolasbertrand/.claude/scripts/gws-auth-check.err.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StartCalendarIntervalAllowedDelay</key>
+    <integer>3600</integer>
+</dict>
+</plist>

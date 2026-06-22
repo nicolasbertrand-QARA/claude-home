@@ -127,9 +127,28 @@ Each stock card should display:
 
 Use the Write tool to save the HTML to /tmp/stock_newsletter.html. The wrapper script handles delivery via SMTP after you exit. Do not send the email yourself.
 
+## PHASE 3.5: INGEST THE 15 NEWSLETTER PICKS INTO STOCKPULSE /picks
+
+Before touching the existing portfolio, push the 15 newsletter picks to StockPulse so they appear in the /picks triage UI. Without this step, only picks that happen to overlap with the existing portfolio ever land in the database.
+
+POST all 15 picks (short + mid + long) as a single batch to /api/cron/feed-recommendations using the SAME schema as Phase 4 Step 3 below. Use the same batchDate (today, YYYY-MM-DD). The endpoint does NOT dedupe against existing portfolio holdings, so always send all 15 — duplicates with portfolio refresh in Phase 4 are acceptable and expected for overlap tickers (the /picks UI shows them as PENDING for triage).
+
+Example (one POST, 15 items in the recommendations array):
+```
+curl -s -X POST $STOCKPULSE_URL/api/cron/feed-recommendations \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $ADMIN_SECRET" \
+  -d '{
+    "batchDate": "YYYY-MM-DD",
+    "recommendations": [ {15 pick objects, same schema as Phase 4 Step 3} ]
+  }'
+```
+
+Verify the response is `{"created": 15, ...}` before moving on. If created < 15, investigate before continuing.
+
 ## PHASE 4: UPDATE EXISTING PORTFOLIO ON STOCKPULSE
 
-After writing the newsletter HTML, update the analysis on ALL stocks currently in the portfolio on the StockPulse platform.
+After ingesting the 15 newsletter picks, update the analysis on ALL stocks currently in the portfolio on the StockPulse platform.
 
 ### Step 1: Get the current portfolio
 

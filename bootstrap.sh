@@ -71,6 +71,22 @@ PROJECT_DIR="$HOME/.claude/projects/$HOSTNAME_TAG"
 run "mkdir -p '$PROJECT_DIR'"
 link "$REPO_DIR/claude/projects/-Users-nicolasbertrand/memory" "$PROJECT_DIR/memory"
 
+# launchd scheduled jobs. Plists are COPIED (not symlinked: launchd resolves and
+# may reject symlinked agents) and then loaded. The scripts they invoke live under
+# ~/.claude/ and are symlinked above, so the plist paths stay valid.
+LAUNCH_DIR="$HOME/Library/LaunchAgents"
+run "mkdir -p '$LAUNCH_DIR'"
+if [ -d "$REPO_DIR/launchd" ]; then
+  for plist in "$REPO_DIR"/launchd/*.plist; do
+    [ -e "$plist" ] || continue
+    name="$(basename "$plist")"
+    log "LAUNCHD copy $name -> $LAUNCH_DIR/"
+    run "cp '$plist' '$LAUNCH_DIR/$name'"
+    run "launchctl unload '$LAUNCH_DIR/$name' 2>/dev/null || true"
+    run "launchctl load '$LAUNCH_DIR/$name'"
+  done
+fi
+
 cat <<'EOF'
 
 [bootstrap] Done. Next manual steps:
@@ -82,7 +98,9 @@ cat <<'EOF'
        claude plugin add-marketplace ~/.claude/local-marketplaces/theodo-ans
        claude plugin install theodo-ans-gap-analysis
   3. Reconnect MCP connectors on claude.ai web (Notion, Drive, Superhuman)
-  4. Restore crontab:    crontab ~/claude-home/crontab.txt
+  4. Scheduled jobs now run via launchd (plists copied + loaded above). Verify:
+       launchctl list | grep -E 'nicolasbertrand|theodo'
+     (crontab.txt is retained only for historical reference; cron is no longer used.)
   5. Clone Normes:       git clone git@github.com:nicolasbertrand-QARA/qara-normes-library.git ~/qara-normes-library
                          ln -s ~/qara-normes-library ~/Documents/Normes
   6. Clone regulatory-watch repo:

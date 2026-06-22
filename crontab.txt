@@ -1,2 +1,7 @@
-# Weekly Stock Picks Newsletter — Claude Code Opus 4.6
-3 8 * * 1 /Users/nicolasbertrand/.claude/run_stock_newsletter.sh
+# HISTORICAL ONLY — this user's crontab is now EMPTY.
+# All scheduled jobs migrated from cron to launchd user agents.
+# See ../launchd/*.plist and the README "Scheduled automation" section.
+#
+# Former cron entry (kept for reference; do NOT re-add, it now runs via
+# com.nicolasbertrand.stockpulse-newsletter.plist):
+#   3 8 * * 1 /Users/nicolasbertrand/.claude/run_stock_newsletter.sh

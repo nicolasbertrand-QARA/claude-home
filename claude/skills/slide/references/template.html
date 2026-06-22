@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<!--
+  Slide deck template.
+  Replace [TOPIC], [SUBTITLE], [CLIENT], [DATE], [REFERENCE] placeholders.
+  Each <section class="slide"> is one slide. Add or remove as needed.
+  Six slide patterns shown below: cover, two-block lead, comparative, wide table,
+  flow + sidebar, action plan.
+  Keyboard: ← → space PageUp/PageDown navigate, Home/End first/last,
+            F toggles real fullscreen with proportional rem scaling,
+            P prints (one slide per A4 landscape page).
+-->
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[TOPIC] · [CLIENT]</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:        oklch(0.995 0.002 240);
+  --paper-soft:   oklch(0.975 0.004 240);
+  --paper-warm:   oklch(0.965 0.018 95);
+  --paper-deep:   oklch(0.945 0.005 240);
+  --navy:         oklch(0.21 0.07 260);
+  --navy-soft:    oklch(0.32 0.06 260);
+  --ink:          oklch(0.21 0.07 260);
+  --ink-body:     oklch(0.28 0.04 260);
+  --ink-soft:     oklch(0.45 0.03 260);
+  --ink-mute:     oklch(0.62 0.02 260);
+  --rule:         oklch(0.88 0.006 240);
+  --rule-strong:  oklch(0.75 0.010 240);
+  --yellow:       oklch(0.88 0.18 95);
+  --yellow-deep:  oklch(0.62 0.16 80);
+  --yellow-soft:  oklch(0.96 0.06 95);
+  --terra:        oklch(0.50 0.13 30);
+  --terra-soft:   oklch(0.94 0.04 30);
+  --green:        oklch(0.50 0.08 150);
+  --green-soft:   oklch(0.94 0.04 150);
+  --display: 'Manrope', system-ui, sans-serif;
+  --body:    'Public Sans', system-ui, sans-serif;
+  --mono:    'JetBrains Mono', ui-monospace, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 17px; }
+body {
+  font-family: var(--body);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink-body);
+  background: var(--paper-deep);
+  font-feature-settings: "ss01", "kern";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+::selection { background: var(--yellow); color: var(--navy); }
+
+.deck { width: 100vw; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
+.slide {
+  width: 100%;
+  max-width: 1280px;
+  aspect-ratio: 16 / 9;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  box-shadow: 0 30px 80px -30px oklch(0.21 0.07 260 / 0.18), 0 8px 24px -8px oklch(0.21 0.07 260 / 0.10);
+  display: none;
+  grid-template-rows: auto 1fr auto;
+  position: relative;
+  overflow: hidden;
+}
+.slide.active { display: grid; }
+
+.strip {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.75rem 1.6rem;
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper-soft);
+  font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute);
+}
+.strip .topic { color: var(--yellow-deep); font-weight: 500; }
+.strip .br {
+  margin-left: auto;
+  font-family: var(--display); font-weight: 800; font-size: 0.9rem; letter-spacing: -0.01em; color: var(--navy); text-transform: none;
+}
+.strip .br .dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--yellow); margin: 0 2px; transform: translateY(-1px); }
+.foot {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 0.6rem 1.6rem;
+  border-top: 1px solid var(--rule);
+  background: var(--paper-soft);
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute);
+}
+.foot .num { color: var(--navy); font-weight: 500; }
+.foot .right { margin-left: auto; }
+
+.body { padding: 1.8rem 2.2rem 1.6rem; overflow: hidden; display: flex; flex-direction: column; }
+.eyebrow {
+  font-family: var(--mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--yellow-deep); font-weight: 500; margin-bottom: 0.5rem;
+}
+h1.deck-title {
+  font-family: var(--display); font-weight: 800; font-size: 5.2rem; line-height: 0.95; letter-spacing: -0.035em; color: var(--navy); margin-bottom: 1.4rem;
+}
+h1.deck-title em { font-style: normal; color: var(--yellow-deep); }
+h1.deck-title .ampr { color: var(--terra); font-weight: 300; }
+h2.slide-title {
+  font-family: var(--display); font-weight: 800; font-size: 2.4rem; line-height: 1.05; letter-spacing: -0.028em; color: var(--navy); margin-bottom: 0.4rem;
+}
+h2.slide-title em { font-style: normal; color: var(--yellow-deep); }
+.kicker {
+  font-family: var(--body); font-size: 1.15rem; color: var(--ink-soft); font-weight: 300; margin-bottom: 1.1rem; max-width: 78ch; line-height: 1.45;
+}
+.kicker strong { color: var(--navy); font-weight: 600; }
+
+h3 { font-family: var(--display); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.005em; color: var(--ink); margin: 0 0 0.45rem; }
+h4 { font-family: var(--mono); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--yellow-deep); font-weight: 500; margin-bottom: 0.4rem; }
+p { margin-bottom: 0.45rem; font-size: 1.02rem; line-height: 1.5; }
+p strong, li strong { font-weight: 600; color: var(--ink); }
+.lead { font-family: var(--display); font-size: 1.45rem; line-height: 1.4; color: var(--ink); font-weight: 400; letter-spacing: -0.005em; margin-bottom: 1rem; max-width: 70ch; }
+.lead strong { font-weight: 700; color: var(--navy); }
+.note { font-size: 0.92rem; color: var(--ink-soft); }
+.mono { font-family: var(--mono); font-size: 0.92em; color: var(--ink); }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.grid-asym { display: grid; grid-template-columns: 1.05fr 1fr; gap: 1.4rem; }
+.col-flow { flex: 1; min-height: 0; }
+
+.block { padding: 1rem 1.15rem; background: var(--paper-soft); border: 1px solid var(--rule); border-radius: 2px; }
+.block.warm  { background: var(--paper-warm); border-color: var(--yellow); }
+.block.dark  { background: var(--navy); color: var(--paper); border-color: var(--navy); }
+.block.dark h3, .block.dark h4 { color: var(--yellow); }
+.block.dark p, .block.dark li { color: color-mix(in oklch, var(--paper) 88%, transparent); }
+.block.dark strong { color: var(--paper); }
+.block.dark li::before { background: var(--yellow); }
+.block.terra { background: var(--terra-soft); border-color: var(--terra); }
+.block.terra h3, .block.terra h4 { color: var(--terra); }
+.block.green { background: var(--green-soft); border-color: var(--green); }
+.block.green h3, .block.green h4 { color: var(--green); }
+
+ul, ol { margin: 0.35rem 0 0.5rem; padding-left: 0; list-style: none; }
+ul li, ol li { position: relative; padding-left: 1.15rem; margin-bottom: 0.35rem; font-size: 1rem; line-height: 1.5; }
+ul li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; border-radius: 50%; background: var(--navy); }
+ol { counter-reset: ol; }
+ol li { counter-increment: ol; padding-left: 1.8rem; margin-bottom: 0.5rem; }
+ol li::before {
+  content: counter(ol, decimal-leading-zero);
+  position: absolute; left: 0; top: 0;
+  font-family: var(--mono); font-size: 0.82rem; color: var(--yellow-deep); font-weight: 500; line-height: 1.55;
+  background: none; width: auto; height: auto; border-radius: 0;
+}
+
+.tbl { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.tbl th, .tbl td { text-align: left; padding: 8px 10px; vertical-align: top; border-bottom: 1px solid var(--rule); }
+.tbl thead th { font-family: var(--mono); font-weight: 500; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute); border-bottom: 1px solid var(--rule-strong); background: var(--paper-soft); }
+.tbl tbody tr:hover { background: var(--paper-soft); }
+.tbl td.id { font-family: var(--mono); font-weight: 500; color: var(--navy); white-space: nowrap; width: 78px; }
+.tbl td.implic { color: var(--ink-soft); }
+.tbl tr.hilite td { background: var(--yellow-soft); }
+.tbl tr.hilite td.id { color: var(--terra); }
+
+.cover { position: relative; height: 100%; padding: 3.2rem 3.6rem; display: flex; flex-direction: column; justify-content: space-between; }
+.cover::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 92% 8%, oklch(0.88 0.18 95 / 0.20), transparent 38%),
+    radial-gradient(circle at 6% 96%, oklch(0.50 0.13 30 / 0.14), transparent 42%);
+  pointer-events: none;
+}
+.cover-meta { display: flex; align-items: baseline; gap: 0.6rem; font-family: var(--mono); font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); }
+.cover-meta .dot { color: var(--yellow-deep); }
+.cover-foot { display: flex; justify-content: space-between; align-items: flex-end; font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-mute); }
+.cover-foot .br { font-family: var(--display); font-weight: 800; font-size: 1.4rem; letter-spacing: -0.015em; color: var(--navy); text-transform: none; }
+.cover-foot .br .sub { color: var(--yellow-deep); }
+.cover .author { font-family: var(--body); font-size: 1rem; font-weight: 300; color: var(--ink-soft); margin-top: 0.5rem; }
+
+.flow { background: var(--paper-soft); border: 1px solid var(--rule); padding: 1rem 1.15rem; border-radius: 2px; font-family: var(--mono); font-size: 0.88rem; color: var(--ink-body); }
+.flow .row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; flex-wrap: wrap; }
+.flow .row:last-child { margin-bottom: 0; }
+.flow .node { background: var(--paper); border: 1px solid var(--rule-strong); padding: 5px 10px; border-radius: 2px; white-space: nowrap; }
+.flow .node.k { background: var(--navy); color: var(--paper); border-color: var(--navy); font-weight: 500; }
+.flow .node.y { background: var(--yellow-soft); border-color: var(--yellow); color: var(--navy); font-weight: 500; }
+.flow .node.t { background: var(--terra-soft); border-color: var(--terra); color: var(--terra); }
+.flow .arr { color: var(--ink-mute); font-weight: 500; }
+.flow .lbl { font-family: var(--body); font-size: 0.85rem; color: var(--ink-mute); font-style: italic; }
+
+.nav { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; align-items: center; padding: 6px 12px; background: oklch(1 0 0 / 0.92); border: 1px solid var(--rule); border-radius: 999px; box-shadow: 0 8px 20px -8px oklch(0.21 0.07 260 / 0.2); font-family: var(--mono); font-size: 0.78rem; color: var(--ink-soft); z-index: 50; }
+.nav button { background: none; border: none; font-family: var(--mono); font-size: 0.95rem; color: var(--navy); cursor: pointer; padding: 2px 6px; border-radius: 2px; }
+.nav button:hover { background: var(--paper-deep); }
+.nav .ct { padding: 0 6px; color: var(--ink-mute); }
+.nav .ct strong { color: var(--navy); font-weight: 600; }
+.dots { display: flex; gap: 4px; margin: 0 6px; }
+.dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--rule-strong); transition: background 0.2s; cursor: pointer; }
+.dots span.active { background: var(--navy); }
+.dots span:hover { background: var(--yellow-deep); }
+.hint { position: fixed; bottom: 16px; right: 16px; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); background: oklch(1 0 0 / 0.88); padding: 5px 10px; border: 1px solid var(--rule); border-radius: 2px; z-index: 50; }
+.hint kbd { font-family: var(--mono); font-size: 0.68rem; background: var(--paper-deep); padding: 1px 4px; border-radius: 2px; border: 1px solid var(--rule); color: var(--navy); }
+
+/* ===== FULLSCREEN (proportional rem scaling, JS sets html font-size inline) ===== */
+html.fs { }
+body.fs { background: #000; }
+body.fs .deck { padding: 0; min-height: 0; height: 100vh; }
+body.fs .slide {
+  width: min(100vw, calc(100vh * 16 / 9));
+  height: min(100vh, calc(100vw * 9 / 16));
+  max-width: none; border: none; box-shadow: none;
+}
+body.fs .nav, body.fs .hint { opacity: 0.35; transition: opacity 0.2s; }
+body.fs .nav:hover, body.fs .hint:hover { opacity: 1; }
+
+@media print {
+  body { background: white; }
+  .deck { padding: 0; min-height: 0; display: block; }
+  .slide { display: grid !important; page-break-after: always; box-shadow: none; border: none; width: 100%; max-width: none; height: 100vh; aspect-ratio: auto; }
+  .nav, .hint { display: none; }
+  @page { size: A4 landscape; margin: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+<!-- ============================================================
+  PATTERN 1 · COVER
+  Use as slide 1. Eyebrow + huge title + lead + meta + brand.
+============================================================ -->
+<section class="slide active" data-topic="Cover">
+  <div class="strip">
+    <span>[Type, e.g. Briefing technique]</span>
+    <span class="topic">/ [Subtitle]</span>
+    <span class="br">[BRAND]<span class="dot"></span>[Suffix]</span>
+  </div>
+  <div class="cover">
+    <div class="cover-meta">
+      <span>[CLIENT]</span><span class="dot">·</span>
+      <span>[CONTEXT]</span><span class="dot">·</span>
+      <span>[DATE]</span>
+    </div>
+    <div>
+      <div class="eyebrow">[Section · N slides]</div>
+      <h1 class="deck-title">[TOPIC] <span class="ampr">&amp;</span> <em>[ACCENT]</em></h1>
+      <p class="lead" style="font-size: 1.6rem; max-width: 60ch;">
+        [One-sentence framing of the whole deck.]
+      </p>
+      <p class="author">Pour [CLIENT] · [TEAM]</p>
+    </div>
+    <div class="cover-foot">
+      <div>
+        <span class="mono" style="font-size: 0.9rem; letter-spacing: 0; text-transform: none;">[REFERENCE document or source citation]</span>
+      </div>
+      <div class="br">[CLIENT] <span class="sub">×</span> [BRAND]</div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="num">01 / NN</span>
+    <span class="right">[Deck title]</span>
+  </div>
+</section>
+
+<!-- ============================================================
+  PATTERN 2 · TWO-BLOCK LEAD (framing / cadre slide)
+  Left column: lead + bullets with h3 section headers
+  Right column: stacked colored blocks (dark + terra + warm)
+============================================================ -->
+<section class="slide" data-topic="Cadre">
+  <div class="strip">
+    <span>02 · [Section]</span>
+    <span class="topic">/ [Slide topic]</span>
+    <span class="br">[BRAND]<span class="dot"></span>[Suffix]</span>
+  </div>
+  <div class="body">
+    <div class="eyebrow">[Section name]</div>
+    <h2 class="slide-title">[Slide title with <em>accent word</em>]</h2>
+    <p class="kicker">
+      [One-sentence framing. Max 1-2 lines.]
+    </p>
+
+    <div class="grid-asym col-flow">
+      <div>
+        <h3>[Section header A]</h3>
+        <ul>
+          <li>[Point 1].</li>
+          <li>[Point 2].</li>
+        </ul>
+        <h3 style="margin-top: 0.7rem;">[Section header B]</h3>
+        <ul>
+          <li><strong>[Key]</strong> : [value].</li>
+          <li><strong>[Key]</strong> : [value].</li>
+          <li><strong>[Key]</strong> : [value].</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="block dark">
+          <h4>[Primary block header]</h4>
+          <ul>
+            <li>[Rule 1].</li>
+            <li>[Rule 2].</li>
+          </ul>
+        </div>
+        <div class="block terra" style="margin-top: 0.8rem;">
+          <h4>[Pitfall / warning header]</h4>
+          <p>[Concrete pitfall description].</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="num">02 / NN</span>
+    <span>[Slide context]</span>
+    <span class="right">[Reference]</span>
+  </div>
+</section>
+
+<!-- ============================================================
+  PATTERN 3 · COMPARATIVE (two-up)
+  Two .block cards side-by-side with colored left borders.
+  Use compact .tbl inside each for key/value pairs.
+============================================================ -->
+<section class="slide" data-topic="Comparatif">
+  <div class="strip">
+    <span>03 · Comparatif</span>
+    <span class="topic">/ [A vs B]</span>
+    <span class="br">[BRAND]<span class="dot"></span>[Suffix]</span>
+  </div>
+  <div class="body">
+    <div class="eyebrow">Comparatif</div>
+    <h2 class="slide-title">[Concept A] et [Concept B] : <em>tableau de bord</em></h2>
+
+    <div class="grid-2 col-flow">
+      <div class="block" style="border-left: 4px solid var(--navy);">
+        <h3 style="color: var(--navy);">[Concept A]</h3>
+        <table class="tbl">
+          <tbody>
+            <tr><td class="id">[Attr]</td><td>[Value]</td></tr>
+            <tr><td class="id">[Attr]</td><td>[Value]</td></tr>
+            <tr><td class="id">[Attr]</td><td>[Value]</td></tr>
+            <tr><td class="id">[Attr]</td><td>[Value]</td></tr>
+            <tr><td class="id">[Attr]</td><td>[Value]</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="block warm" style="border-left: 4px solid var(--yellow-deep);">
+        <h3 style="color: var(--yellow-deep);">[Concept B]</h3>
+        <table class="tbl">
+          <tbody>
+            <tr><td class="id">[Attr]</td><td>[Value]</td></tr>
+            <tr><td class="id">[Attr]</td><td>[Value]</td></tr>
+            <tr><td class="id">[Attr]</td><td>[Value]</td></tr>
+            <tr><td class="id">[Attr]</td><td>[Value]</td></tr>
+            <tr><td class="id">[Attr]</td><td>[Value]</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="note" style="margin-top: 0.7rem; text-align: center;">
+      [Short comparative summary line.]
+    </p>
+  </div>
+  <div class="foot">
+    <span class="num">03 / NN</span>
+    <span>[Context]</span>
+    <span class="right">[Reference]</span>
+  </div>
+</section>
+
+<!-- ============================================================
+  PATTERN 4 · WIDE TABLE
+  Full-width compact table with ID column + énoncé + implication.
+  Use tr.hilite for emphasized rows.
+============================================================ -->
+<section class="slide" data-topic="Details">
+  <div class="strip">
+    <span>04 · [Section]</span>
+    <span class="topic">/ [Detailed list]</span>
+    <span class="br">[BRAND]<span class="dot"></span>[Suffix]</span>
+  </div>
+  <div class="body">
+    <div class="eyebrow">[Section name]</div>
+    <h2 class="slide-title">[Title, e.g. Les N exigences]</h2>
+    <p class="kicker">
+      [One-line framing of what the table shows.]
+    </p>
+
+    <div class="col-flow" style="overflow-y: auto;">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th style="width: 78px;">ID</th>
+            <th style="width: 38%;">Énoncé</th>
+            <th>Implication produit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="id">[ID 1]</td><td>[Short statement.]</td><td class="implic">[Concrete implication.]</td></tr>
+          <tr><td class="id">[ID 2]</td><td>[Short statement.]</td><td class="implic">[Concrete implication.]</td></tr>
+          <tr class="hilite"><td class="id">[ID 3]</td><td>[Important statement.]</td><td class="implic">[Concrete implication.]</td></tr>
+          <tr><td class="id">[ID 4]</td><td>[Short statement.]</td><td class="implic">[Concrete implication.]</td></tr>
+          <tr><td class="id">[ID 5]</td><td>[Short statement.]</td><td class="implic">[Concrete implication.]</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="num">04 / NN</span>
+    <span>[Context]</span>
+    <span class="right">[Reference]</span>
+  </div>
+</section>
+
+<!-- ============================================================
+  PATTERN 5 · FLOW DIAGRAM + SIDEBAR
+  Left: .flow with .node boxes and arrows.
+  Right: stacked .block cards (default + dark + terra).
+============================================================ -->
+<section class="slide" data-topic="Pile">
+  <div class="strip">
+    <span>05 · [Section]</span>
+    <span class="topic">/ [Technical view]</span>
+    <span class="br">[BRAND]<span class="dot"></span>[Suffix]</span>
+  </div>
+  <div class="body">
+    <div class="eyebrow">[Section name]</div>
+    <h2 class="slide-title">[Title describing the flow / architecture]</h2>
+    <p class="kicker">
+      [One-line framing of the flow purpose.]
+    </p>
+
+    <div class="grid-asym col-flow">
+      <div>
+        <h3>[Flow name]</h3>
+        <div class="flow">
+          <div class="row">
+            <span class="node">[Start]</span>
+            <span class="arr">→</span>
+            <span class="node y">[Step]</span>
+            <span class="arr">→</span>
+            <span class="node k">[Service]</span>
+          </div>
+          <div class="row">
+            <span class="node k">[Service]</span>
+            <span class="arr">→</span>
+            <span class="node">[Option A / Option B / Option C]</span>
+          </div>
+          <div class="row">
+            <span class="node k">[Service]</span>
+            <span class="arr">→</span>
+            <span class="node y">[Callback]</span>
+            <span class="arr">→</span>
+            <span class="node">[App]</span>
+          </div>
+          <div class="row">
+            <span class="node">[App]</span>
+            <span class="arr">→</span>
+            <span class="node t">[External lookup]</span>
+            <span class="arr">→</span>
+            <span class="node y">[Hydrated state]</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="block">
+          <h4>[Sidebar block A]</h4>
+          <ul>
+            <li>[Point 1].</li>
+            <li>[Point 2].</li>
+            <li>[Point 3].</li>
+          </ul>
+        </div>
+        <div class="block terra" style="margin-top: 0.7rem;">
+          <h4>Watch-outs</h4>
+          <ul>
+            <li>[Failure mode 1].</li>
+            <li>[Failure mode 2].</li>
+            <li>[Failure mode 3].</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="num">05 / NN</span>
+    <span>[Context]</span>
+    <span class="right">[Reference]</span>
+  </div>
+</section>
+
+<!-- ============================================================
+  PATTERN 6 · ACTION PLAN (closing slide)
+  Left: numbered ordered list (decimal-leading-zero counters).
+  Right: dark block (livrables) + warm block (calendrier table) + closing note.
+============================================================ -->
+<section class="slide" data-topic="Plan d'action">
+  <div class="strip">
+    <span>06 · [Client]</span>
+    <span class="topic">/ Plan d'action</span>
+    <span class="br">[BRAND]<span class="dot"></span>[Suffix]</span>
+  </div>
+  <div class="body">
+    <div class="eyebrow">[Client] · Plan d'action</div>
+    <h2 class="slide-title">Plan d'action <em>[N semaines]</em></h2>
+    <p class="kicker">
+      [One-line summary of the plan logic.]
+    </p>
+
+    <div class="grid-2 col-flow">
+      <div>
+        <h3>Chantiers</h3>
+        <ol>
+          <li><strong>[Workstream 1]</strong> ([scope, 1 line]).</li>
+          <li><strong>[Workstream 2]</strong> ([scope]).</li>
+          <li><strong>[Workstream 3]</strong> ([scope]).</li>
+          <li><strong>[Workstream 4]</strong> ([scope]).</li>
+          <li><strong>[Workstream 5]</strong> ([scope]).</li>
+          <li><strong>[Workstream 6]</strong> ([scope]).</li>
+        </ol>
+      </div>
+
+      <div>
+        <div class="block dark">
+          <h4>Livrables</h4>
+          <ul>
+            <li>[Deliverable 1].</li>
+            <li>[Deliverable 2].</li>
+            <li>[Deliverable 3].</li>
+            <li>[Deliverable 4].</li>
+          </ul>
+        </div>
+        <div class="block warm" style="margin-top: 0.7rem;">
+          <h4>Calendrier</h4>
+          <table class="tbl">
+            <tbody>
+              <tr><td class="id">S1-S2</td><td>[Phase 1]</td></tr>
+              <tr><td class="id">S3-S4</td><td>[Phase 2]</td></tr>
+              <tr><td class="id">S5-S6</td><td>[Phase 3]</td></tr>
+              <tr><td class="id">S7-S8</td><td>[Phase 4]</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note" style="margin-top: 0.6rem;">
+          Prochaine étape : [next action]. Livrable : [output].
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="num">06 / NN</span>
+    <span>Plan d'action</span>
+    <span class="right">[Team] · [Department]</span>
+  </div>
+</section>
+
+</div>
+
+<div class="nav" id="nav">
+  <button id="prev" aria-label="Précédent">‹</button>
+  <span class="ct"><strong id="ct-cur">1</strong> / <span id="ct-tot">10</span></span>
+  <div class="dots" id="dots"></div>
+  <button id="next" aria-label="Suivant">›</button>
+</div>
+<div class="hint">
+  <kbd>←</kbd> <kbd>→</kbd> nav · <kbd>F</kbd> plein écran · <kbd>P</kbd> imprimer
+</div>
+
+<script>
+(function() {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let cur = 0;
+  const ctCur = document.getElementById('ct-cur');
+  const ctTot = document.getElementById('ct-tot');
+  const dotsBox = document.getElementById('dots');
+  ctTot.textContent = total;
+
+  slides.forEach((s, i) => {
+    const d = document.createElement('span');
+    d.dataset.i = i;
+    d.title = s.dataset.topic || ('Slide ' + (i+1));
+    if (i === 0) d.classList.add('active');
+    d.addEventListener('click', () => go(i));
+    dotsBox.appendChild(d);
+  });
+
+  function go(i) {
+    if (i < 0 || i >= total) return;
+    slides[cur].classList.remove('active');
+    slides[i].classList.add('active');
+    cur = i;
+    ctCur.textContent = i + 1;
+    document.querySelectorAll('.dots span').forEach((d, k) => {
+      d.classList.toggle('active', k === i);
+    });
+    if (location.hash !== '#' + (i+1)) {
+      history.replaceState(null, '', '#' + (i+1));
+    }
+  }
+
+  document.getElementById('prev').addEventListener('click', () => go(cur - 1));
+  document.getElementById('next').addEventListener('click', () => go(cur + 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(cur + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(cur - 1); }
+    else if (e.key === 'Home') { go(0); }
+    else if (e.key === 'End') { go(total - 1); }
+    else if (e.key === 'f' || e.key === 'F') {
+      const fs = document.fullscreenElement || document.webkitFullscreenElement;
+      if (!fs) {
+        const root = document.documentElement;
+        (root.requestFullscreen || root.webkitRequestFullscreen).call(root);
+      } else {
+        (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      }
+    }
+    else if (e.key === 'p' || e.key === 'P') { window.print(); }
+  });
+
+  // Fullscreen: scale html font-size so 1rem stays proportional to rendered slide.
+  // Design baseline: 1280×720 at 17px base font.
+  function applyFsScale() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const slideH = Math.min(h, w * 9 / 16);
+    document.documentElement.style.fontSize = (slideH / 720 * 17) + 'px';
+  }
+  function onFsChange() {
+    const fs = document.fullscreenElement || document.webkitFullscreenElement;
+    document.body.classList.toggle('fs', !!fs);
+    document.documentElement.classList.toggle('fs', !!fs);
+    if (fs) applyFsScale();
+    else document.documentElement.style.fontSize = '';
+  }
+  document.addEventListener('fullscreenchange', onFsChange);
+  document.addEventListener('webkitfullscreenchange', onFsChange);
+  window.addEventListener('resize', () => {
+    if (document.documentElement.classList.contains('fs')) applyFsScale();
+  });
+
+  const hash = parseInt(location.hash.slice(1), 10);
+  if (!isNaN(hash) && hash >= 1 && hash <= total) go(hash - 1);
+})();
+</script>
+
+</body>
+</html>

@@ -20,3 +20,5 @@ When sending Notion-flavored markdown via `notion-create-pages` or `notion-updat
 - For deleting or replacing whole sections that contain tables, prefer `replace_content` with the full new page body.
 - Same caveat likely applies to other block types Notion may auto-expand (toggles, callouts with multiple children, columns).
 - Verify table-touching updates by re-fetching, since the API doesn't report match count.
+
+**WORSE variant (proven 2026-06-11, Standard - Verification page):** even with the correct fetched one-cell-per-line form in `old_str`, `update_content` that inserts new `<tr>` rows into an existing table, or inserts a new section before a heading whose section contains a table, can return success but DELETE the matched content without inserting the replacement (lost the whole Responsibilities section + an Annex row). Hard rule: `update_content` for plain prose edits only; any edit that adds/moves table rows or inserts sections adjacent to tables goes through `replace_content` with the full page body, followed by a verification re-fetch.
